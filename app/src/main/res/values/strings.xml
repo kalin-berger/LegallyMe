@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">HomeActivity</string>
+
+    <!-- General Use Strings -->
+    <string name="go_button">Go</string>
+
+    <!-- Documents Tab Strings -->
+    <string name="documents_tab_selection_state_textview">Select state:</string>
+    <string name="documents_tab_selection_document_textview">Select document:</string>
+    <string name="documents_tab_selection_title">Find documents</string>
+    <string name="documents_tab_selection_subtitle">Search by state and type</string>
 </resources>
