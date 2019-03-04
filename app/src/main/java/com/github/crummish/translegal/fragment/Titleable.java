@@ -1,5 +1,5 @@
 package com.github.crummish.translegal.fragment;
 
-public interface TitleInterface {
+public interface Titleable {
     void setText(String title, String subtitle);
 }

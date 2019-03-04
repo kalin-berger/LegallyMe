@@ -9,4 +9,7 @@
     <string name="documents_tab_selection_document_textview">Select document:</string>
     <string name="documents_tab_selection_title">Find documents</string>
     <string name="documents_tab_selection_subtitle">Search by state and type</string>
+    <string name="home_tab_title">TransLegal</string>
+    <string name="home_tab_subtitle">Overcoming barriers, together</string>
+    <string name="home_tab_splash_screen_text">Welcome to TransLegal! Here you\'ll find resources on a per-state basis for legal documents related to transitioning. Navigate to the \'Documents\' tab to begin.</string>
 </resources>

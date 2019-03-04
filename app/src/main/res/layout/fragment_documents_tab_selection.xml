@@ -8,7 +8,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/documents_tab_selection_state_textview"
-        android:style="@style/FieldTitleText" />
+        style="@style/FieldTitleText" />
     <Spinner
         android:id="@+id/select_state_spinner"
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/documents_tab_selection_document_textview"
-        android:style="@style/FieldTitleText" />
+        style="@style/FieldTitleText" />
     <Spinner
         android:id="@+id/select_document_spinner"
         android:layout_width="match_parent"

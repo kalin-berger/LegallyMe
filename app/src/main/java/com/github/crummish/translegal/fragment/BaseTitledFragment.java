@@ -13,6 +13,8 @@ import com.github.crummish.translegal.activity.R;
 
 public class BaseTitledFragment extends Fragment {
 
+    public static final String EXTRA_TITLE = "title", EXTRA_SUBTITLE = "subtitle";
+
     String titleText, subtitleText;
     TextView title, subtitle;
 
@@ -20,16 +22,20 @@ public class BaseTitledFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(savedInstanceState != null) {
-            titleText = savedInstanceState.getString("title");
-            subtitleText = savedInstanceState.getString("subtitle");
-        }
-        else if(getArguments() != null) {
-            titleText = savedInstanceState.getString("title");
-            subtitleText = savedInstanceState.getString("subtitle");
+            titleText = savedInstanceState.getString(EXTRA_TITLE);
+            subtitleText = savedInstanceState.getString(EXTRA_SUBTITLE);
         }
         else {
-            throw new IllegalArgumentException("No text was provided for title");
+            titleText = subtitleText = "";
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putString(EXTRA_TITLE, titleText);
+        outState.putString(EXTRA_SUBTITLE, subtitleText);
     }
 
     @Nullable
@@ -44,5 +50,15 @@ public class BaseTitledFragment extends Fragment {
         subtitle.setText(subtitleText);
 
         return rootView;
+    }
+
+    public void setTitle(String titleText, String subtitleText) {
+        this.titleText = titleText;
+        this.subtitleText = subtitleText;
+
+        if(title != null && subtitle != null) {
+            title.setText(this.titleText);
+            subtitle.setText(this.subtitleText);
+        }
     }
 }
