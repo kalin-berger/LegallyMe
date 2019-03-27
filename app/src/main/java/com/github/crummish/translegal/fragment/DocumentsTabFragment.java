@@ -28,7 +28,6 @@ public class DocumentsTabFragment extends BaseTitledFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("TESTING", "Starting for the first time!");
         // First time opening, initialize to selection screen
         SelectScreenFragment selectScreen = new SelectScreenFragment();
         Bundle b = new Bundle();

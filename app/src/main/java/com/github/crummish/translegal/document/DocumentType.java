@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public enum DocumentType implements Serializable {
     NAME_CHANGE("Name change"),
-    DRIVERS_LICENSE("Driver's license"),
+    DRIVERS_LICENSE("Drivers license"),
     BIRTH_CERTIFICATE("Birth certificate");
 
     private String name;
