@@ -14,8 +14,8 @@ import android.widget.Button;
 import android.widget.Spinner;
 
 import com.github.crummish.legallyme.activity.R;
-import com.github.crummish.legallyme.document.DocumentType;
-import com.github.crummish.legallyme.document.State;
+import com.github.crummish.legallyme.document.RecordType;
+import com.github.crummish.legallyme.document.RecordState;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -32,12 +32,12 @@ public class DocumentsTabFragment extends BaseTitledFragment {
         Bundle b = new Bundle();
         // Example demonstration of selection screen
         // TODO: Replace example selection screen with flexible implementation
-        TreeMap<State, TreeSet<DocumentType>> stateDocumentsMap = new TreeMap<>();
-        TreeSet<DocumentType> virginiaDocs = new TreeSet<>();
-        virginiaDocs.add(DocumentType.BIRTH_CERTIFICATE);
-        virginiaDocs.add(DocumentType.DRIVERS_LICENSE);
-        virginiaDocs.add(DocumentType.PASSPORT);
-        stateDocumentsMap.put(State.VIRGINIA, virginiaDocs);
+        TreeMap<RecordState, TreeSet<RecordType>> stateDocumentsMap = new TreeMap<>();
+        TreeSet<RecordType> virginiaDocs = new TreeSet<>();
+        virginiaDocs.add(RecordType.BIRTH_CERTIFICATE);
+        virginiaDocs.add(RecordType.DRIVERS_LICENSE);
+        virginiaDocs.add(RecordType.PASSPORT);
+        stateDocumentsMap.put(RecordState.VIRGINIA, virginiaDocs);
         b.putSerializable(SelectScreenFragment.EXTRA_STATE_DOCUMENTS_MAP, (Serializable) stateDocumentsMap);
         selectScreen.setArguments(b);
 
@@ -51,16 +51,16 @@ public class DocumentsTabFragment extends BaseTitledFragment {
     public static class SelectScreenFragment extends Fragment {
 
         private final static String EXTRA_STATE_DOCUMENTS_MAP = "stateDocumentsMap";
-        private TreeMap<State, TreeSet<DocumentType>> stateDocumentsMap;
+        private TreeMap<RecordState, TreeSet<RecordType>> stateDocumentsMap;
 
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             if(savedInstanceState != null) {
-                stateDocumentsMap = (TreeMap<State, TreeSet<DocumentType>>) savedInstanceState.getSerializable(EXTRA_STATE_DOCUMENTS_MAP);
+                stateDocumentsMap = (TreeMap<RecordState, TreeSet<RecordType>>) savedInstanceState.getSerializable(EXTRA_STATE_DOCUMENTS_MAP);
             }
             else if(getArguments() != null) {
-                stateDocumentsMap = (TreeMap<State, TreeSet<DocumentType>>) getArguments().getSerializable(EXTRA_STATE_DOCUMENTS_MAP);
+                stateDocumentsMap = (TreeMap<RecordState, TreeSet<RecordType>>) getArguments().getSerializable(EXTRA_STATE_DOCUMENTS_MAP);
             }
             else {
                 throw new IllegalArgumentException("No state document information provided");
@@ -76,7 +76,7 @@ public class DocumentsTabFragment extends BaseTitledFragment {
 
             final Spinner stateSpinner = rootView.findViewById(R.id.select_state_spinner);
 
-            ArrayAdapter<State> stateNameAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, new ArrayList<State>(stateDocumentsMap.keySet()));
+            ArrayAdapter<RecordState> stateNameAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, new ArrayList<RecordState>(stateDocumentsMap.keySet()));
             stateSpinner.setAdapter(stateNameAdapter);
 
             final Spinner documentSpinner = rootView.findViewById(R.id.select_document_spinner);
@@ -84,9 +84,9 @@ public class DocumentsTabFragment extends BaseTitledFragment {
             stateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    State selectedState = (State) stateSpinner.getSelectedItem();
-                    ArrayList<DocumentType> availableDocuments = new ArrayList<>(stateDocumentsMap.get(selectedState));
-                    ArrayAdapter<DocumentType> documentTypeAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, availableDocuments);
+                    RecordState selectedState = (RecordState) stateSpinner.getSelectedItem();
+                    ArrayList<RecordType> availableDocuments = new ArrayList<>(stateDocumentsMap.get(selectedState));
+                    ArrayAdapter<RecordType> documentTypeAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, availableDocuments);
                     documentSpinner.setAdapter(documentTypeAdapter);
                 }
 

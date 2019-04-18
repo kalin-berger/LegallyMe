@@ -2,7 +2,7 @@ package com.github.crummish.legallyme.document;
 
 import java.io.Serializable;
 
-public enum State implements Serializable {
+public enum RecordState implements Serializable {
     ALABAMA("Alabama"),
     ALASKA("Alaska"),
     ARIZONA("Arizona"),
@@ -56,8 +56,12 @@ public enum State implements Serializable {
 
     private String name;
 
-    State(String name)  {
+    RecordState(String name)  {
         this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 
     @Override
