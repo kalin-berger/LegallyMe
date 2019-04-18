@@ -1,11 +1,10 @@
-package com.github.crummish.translegal.document;
+package com.github.crummish.legallyme.document;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 
 /**
  * Loads and parses a file from a source directory into a standardized Document.

@@ -1,11 +1,10 @@
-package com.github.crummish.translegal.fragment;
+package com.github.crummish.legallyme.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +13,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
-import com.github.crummish.translegal.activity.R;
-import com.github.crummish.translegal.document.DocumentType;
-import com.github.crummish.translegal.document.State;
+import com.github.crummish.legallyme.activity.R;
+import com.github.crummish.legallyme.document.DocumentType;
+import com.github.crummish.legallyme.document.State;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -35,9 +34,9 @@ public class DocumentsTabFragment extends BaseTitledFragment {
         // TODO: Replace example selection screen with flexible implementation
         TreeMap<State, TreeSet<DocumentType>> stateDocumentsMap = new TreeMap<>();
         TreeSet<DocumentType> virginiaDocs = new TreeSet<>();
-        virginiaDocs.add(DocumentType.NAME_CHANGE);
         virginiaDocs.add(DocumentType.BIRTH_CERTIFICATE);
         virginiaDocs.add(DocumentType.DRIVERS_LICENSE);
+        virginiaDocs.add(DocumentType.PASSPORT);
         stateDocumentsMap.put(State.VIRGINIA, virginiaDocs);
         b.putSerializable(SelectScreenFragment.EXTRA_STATE_DOCUMENTS_MAP, (Serializable) stateDocumentsMap);
         selectScreen.setArguments(b);

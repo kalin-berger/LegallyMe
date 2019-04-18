@@ -1,4 +1,4 @@
-package com.github.crummish.translegal.fragment;
+package com.github.crummish.legallyme.fragment;
 
 public interface Titleable {
     void setText(String title, String subtitle);

@@ -1,4 +1,4 @@
-package com.github.crummish.translegal.document;
+package com.github.crummish.legallyme.document;
 
 import java.io.Serializable;
 

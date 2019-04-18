@@ -12,4 +12,8 @@
     <string name="home_tab_title">TransLegal</string>
     <string name="home_tab_subtitle">Overcoming barriers, together</string>
     <string name="home_tab_splash_screen_text">Welcome to TransLegal! Here you\'ll find resources on a per-state basis for legal documents related to transitioning. Navigate to the \'Documents\' tab to begin.</string>
+    <string name="favorites_tab_title">Bookmarks</string>
+    <string name="favorites_tab_subtitle"><![CDATA[Your saved documents & information]]></string>
+    <string name="search_tab_title">Search for local lawyers</string>
+    <string name="search_tab_subtitle"><![CDATA[Local lawyers, paralegals, & law firms]]></string>
 </resources>

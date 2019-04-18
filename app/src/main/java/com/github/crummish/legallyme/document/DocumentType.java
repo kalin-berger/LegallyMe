@@ -1,11 +1,11 @@
-package com.github.crummish.translegal.document;
+package com.github.crummish.legallyme.document;
 
 import java.io.Serializable;
 
 public enum DocumentType implements Serializable {
-    NAME_CHANGE("Name change"),
+    BIRTH_CERTIFICATE("Birth certificate"),
     DRIVERS_LICENSE("Drivers license"),
-    BIRTH_CERTIFICATE("Birth certificate");
+    PASSPORT("Passport");
 
     private String name;
 

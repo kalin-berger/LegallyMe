@@ -1,4 +1,4 @@
-package com.github.crummish.translegal.activity;
+package com.github.crummish.legallyme.activity;
 
 import org.junit.Test;
 

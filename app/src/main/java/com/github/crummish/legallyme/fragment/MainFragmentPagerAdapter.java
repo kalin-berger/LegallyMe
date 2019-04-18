@@ -1,4 +1,4 @@
-package com.github.crummish.translegal.fragment;
+package com.github.crummish.legallyme.fragment;
 
 import android.content.Context;
 import android.support.annotation.Nullable;

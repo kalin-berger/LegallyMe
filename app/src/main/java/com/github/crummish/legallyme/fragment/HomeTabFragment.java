@@ -1,4 +1,4 @@
-package com.github.crummish.translegal.fragment;
+package com.github.crummish.legallyme.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.github.crummish.translegal.activity.R;
+import com.github.crummish.legallyme.activity.R;
 
 public class HomeTabFragment extends BaseTitledFragment {
     @Override
