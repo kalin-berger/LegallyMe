@@ -52,7 +52,9 @@ public enum RecordState implements Serializable {
     WASHINGTON("Washington"),
     WEST_VIRGINIA("West Virginia"),
     WISCONSIN("Wisconsin"),
-    WYOMING("Wyoming");
+    WYOMING("Wyoming"),
+
+    FEDERAL("Federal");
 
     private String name;
 
