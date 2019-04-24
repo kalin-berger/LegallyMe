@@ -5,7 +5,8 @@ import java.io.Serializable;
 public enum RecordType implements Serializable {
     BIRTH_CERTIFICATE("Birth certificate"),
     DRIVERS_LICENSE("Drivers license"),
-    PASSPORT("Passport");
+    PASSPORT("Passport"),
+    SOCIAL_SECURITY("Social security");
 
     private String name;
 

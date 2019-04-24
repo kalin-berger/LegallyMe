@@ -11,21 +11,18 @@ import com.github.crummish.legallyme.document.RecordState;
 
 import java.net.URL;
 
-@Entity(tableName = "record_change_form_table")
+@Entity(tableName = "record_change_form_table", primaryKeys = {"state", "type", "field"})
 public class RecordChangeForm {
 
     @TypeConverters(RecordStateConverter.class)
-    @PrimaryKey
     @NonNull
     private RecordState state;
 
     @TypeConverters(RecordTypeConverter.class)
-    @PrimaryKey
     @NonNull
     private RecordType type;
 
     @TypeConverters(RecordFieldConverter.class)
-    @PrimaryKey
     @NonNull
     private RecordField field;
 
@@ -33,4 +30,44 @@ public class RecordChangeForm {
 
     @TypeConverters(UrlConverter.class)
     private URL url;
+
+    public RecordState getState() {
+        return this.state;
+    }
+
+    public void setState(RecordState state) {
+        this.state = state;
+    }
+
+    public RecordType getType() {
+        return this.type;
+    }
+
+    public void setType(RecordType type) {
+        this.type = type;
+    }
+
+    public RecordField getField() {
+        return this.field;
+    }
+
+    public void setField(RecordField field) {
+        this.field = field;
+    }
+
+    public URL getUrl() {
+        return this.url;
+    }
+
+    public void setUrl(URL url) {
+        this.url = url;
+    }
+
+    public String getTitle() {
+        return this.title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 }

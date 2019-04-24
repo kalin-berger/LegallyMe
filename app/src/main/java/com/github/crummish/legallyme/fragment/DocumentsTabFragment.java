@@ -37,6 +37,7 @@ public class DocumentsTabFragment extends BaseTitledFragment {
         virginiaDocs.add(RecordType.BIRTH_CERTIFICATE);
         virginiaDocs.add(RecordType.DRIVERS_LICENSE);
         virginiaDocs.add(RecordType.PASSPORT);
+        virginiaDocs.add(RecordType.SOCIAL_SECURITY);
         stateDocumentsMap.put(RecordState.VIRGINIA, virginiaDocs);
         b.putSerializable(SelectScreenFragment.EXTRA_STATE_DOCUMENTS_MAP, (Serializable) stateDocumentsMap);
         selectScreen.setArguments(b);
