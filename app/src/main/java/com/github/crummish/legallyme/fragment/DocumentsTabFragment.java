@@ -16,6 +16,7 @@ import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.github.crummish.legallyme.activity.R;
 import com.github.crummish.legallyme.document.RecordType;
@@ -68,7 +69,7 @@ public class DocumentsTabFragment extends BaseTitledFragment {
                 stateDocumentsMap = (TreeMap<RecordState, TreeSet<RecordType>>) getArguments().getSerializable(EXTRA_STATE_DOCUMENTS_MAP);
             }
             else {
-                throw new IllegalArgumentException("No state document information provided");
+                //throw new IllegalArgumentException("No state document information provided");
             }
         }
 
@@ -191,8 +192,80 @@ public class DocumentsTabFragment extends BaseTitledFragment {
                 @Override
                 public void onClick(View view) {
                     // Carry over saved user choices and switch fragments
+                    swapFragment();
                 }
             });
+
+            return rootView;
+        }
+
+        private void swapFragment() {
+            ChecklistFragment checklistFragment = new ChecklistFragment();
+
+            FragmentTransaction frag = getChildFragmentManager().beginTransaction();
+            frag.replace(R.id.content_container, checklistFragment)
+                    .addToBackStack(null)
+                    .commit();
+        }
+    }
+
+    // Fragment to display checklist; currently populated with static dummy data for demo
+    public static class ChecklistFragment extends Fragment {
+        @Nullable
+        @Override
+        public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+            super.onCreateView(inflater, container, savedInstanceState);
+
+            Boolean petition_bool;
+            Boolean birth_bool;
+            Boolean drivers_bool;
+            Boolean social_bool;
+            Boolean passport_bool;
+            Boolean name_bool;
+            Boolean gender_bool;
+
+            View rootView = inflater.inflate(R.layout.fragment_documents_tab_checklist, container, false);
+            final TextView info = (TextView) rootView.findViewById(R.id.checklist_info);
+            String info_string = "This is your personalized checklist! You still need to:\n\n";
+
+            if(petition_bool = true){
+                String petition = "You first must submit a name change petition to your local circuit court.\nFill out and submit forms: Application for Name Change, Order for Name Change\n\n";
+                info_string = info_string + petition;
+            }
+
+            if(gender_bool = true) {
+                if(birth_bool = true) {
+                    String birth_gender = "Change your birth certificate:\n1. Submit Application for Sex Change and Order for Sex Change forms to your local circuit court\n2. Fill out Application for Birth Certificate\n\n";
+                    info_string = info_string + birth_gender;
+                }
+                if(drivers_bool = true) {
+                    String drivers_gender = "Change your driver's license:\n1. Submit VA Driver's License and ID Card Application\n2. Submit VA Gender Designation Change Request signed by a medical professional\n3. Some counties may also require you to submit an Order for Sex Change from your local court\n\n";
+                    info_string = info_string + drivers_gender;
+                }
+                if(social_bool = true) {
+                    //
+                }
+                if(passport_bool = true) {
+                    //
+                }
+            } else if(gender_bool = false) {
+                if(birth_bool = true) {
+                    String birth_name = "Change your birth certificate:\n1. Fill out Application for Birth Certificate\n\n";
+                    info_string = info_string + birth_name;
+                }
+                if(drivers_bool = true) {
+                    String drivers_name = "Change your driver's license:\n1. Submit VA Driver's License and ID Card Application\n\n";
+                    info_string = info_string + drivers_name;
+                }
+                if(social_bool = true) {
+                    //
+                }
+                if(passport_bool = true) {
+                    //
+                }
+            }
+
+            info.setText(info_string);
 
             return rootView;
         }
