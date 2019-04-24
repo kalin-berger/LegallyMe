@@ -1,36 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<ScrollView android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/documents_tab_selection_state_textview"
-        style="@style/FieldTitleText" />
-    <Spinner
-        android:id="@+id/select_state_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="50dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/documents_tab_selection_state_textview"
+                style="@style/FieldTitleText" />
+            <Spinner
+                android:id="@+id/select_state_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
 
-    <TextView
-        android:layout_marginTop="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/documents_tab_selection_document_textview"
-        style="@style/FieldTitleText" />
-    <Spinner
-        android:id="@+id/select_document_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="50dp" />
+            <TextView
+                style="@style/FieldTitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/documents_tab_selection_petition_textview" />
 
-    <Button
-        android:id="@+id/go_button"
-        android:layout_marginTop="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:text="@string/go_button"
-        style="@style/DefaultButton"/>
-</LinearLayout>
+            <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/select_petition_bool"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:orientation="vertical">
+                <RadioButton android:id="@+id/radio_yes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/radio_yes"/>
+                <RadioButton android:id="@+id/radio_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/radio_no"/>
+                <RadioButton android:id="@+id/radio_idk"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/radio_idk"/>
+            </RadioGroup>
+
+            <TextView
+                style="@style/FieldTitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/documents_tab_selection_document_textview" />
+
+            <CheckBox android:id="@+id/checkbox_birth_cert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/birth_cert"
+                android:onClick="onCheckboxClicked"/>
+            <CheckBox android:id="@+id/checkbox_drivers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/drivers"
+                android:onClick="onCheckboxClicked"/>
+            <CheckBox android:id="@+id/checkbox_social"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/social"
+                android:onClick="onCheckboxClicked"/>
+            <CheckBox android:id="@+id/checkbox_passport"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/passport"
+                android:onClick="onCheckboxClicked"/>
+
+            <TextView
+                style="@style/FieldTitleText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/documents_tab_selection_change_textview" />
+
+            <CheckBox android:id="@+id/checkbox_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/name"
+                android:onClick="onCheckboxClicked"/>
+            <CheckBox android:id="@+id/checkbox_gender"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/gender"
+                android:onClick="onCheckboxClicked"/>
+
+            <Button
+                android:id="@+id/go_button"
+                style="@style/DefaultButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="20dp"
+                android:text="@string/go_button" />
+        </LinearLayout>
+</ScrollView>

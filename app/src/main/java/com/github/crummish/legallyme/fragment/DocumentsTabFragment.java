@@ -11,6 +11,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 
 import com.github.crummish.legallyme.activity.R;
@@ -80,15 +84,15 @@ public class DocumentsTabFragment extends BaseTitledFragment {
             ArrayAdapter<RecordState> stateNameAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, new ArrayList<RecordState>(stateDocumentsMap.keySet()));
             stateSpinner.setAdapter(stateNameAdapter);
 
-            final Spinner documentSpinner = rootView.findViewById(R.id.select_document_spinner);
+            //final Spinner documentSpinner = rootView.findViewById(R.id.select_document_spinner);
 
             stateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                     RecordState selectedState = (RecordState) stateSpinner.getSelectedItem();
                     ArrayList<RecordType> availableDocuments = new ArrayList<>(stateDocumentsMap.get(selectedState));
-                    ArrayAdapter<RecordType> documentTypeAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, availableDocuments);
-                    documentSpinner.setAdapter(documentTypeAdapter);
+                    //ArrayAdapter<RecordType> documentTypeAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, availableDocuments);
+                    //documentSpinner.setAdapter(documentTypeAdapter);
                 }
 
                 @Override
@@ -97,11 +101,96 @@ public class DocumentsTabFragment extends BaseTitledFragment {
                 }
             });
 
+            // Radio button response
+            final RadioGroup petitionRadio = rootView.findViewById(R.id.select_petition_bool);
+            petitionRadio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                    if(i == R.id.radio_yes){
+                        //
+                    }
+                    if(i == R.id.radio_no){
+                        //
+                    }
+                    if(i == R.id.radio_idk){
+                        //
+                    }
+                }
+            });
+
+            final CheckBox checkBirth = (CheckBox) rootView.findViewById(R.id.checkbox_birth_cert);
+            final CheckBox checkDrivers = (CheckBox) rootView.findViewById(R.id.checkbox_drivers);
+            final CheckBox checkSocial = (CheckBox) rootView.findViewById(R.id.checkbox_social);
+            final CheckBox checkPassport = (CheckBox) rootView.findViewById(R.id.checkbox_passport);
+            final CheckBox checkName = (CheckBox) rootView.findViewById(R.id.checkbox_name);
+            final CheckBox checkGender = (CheckBox) rootView.findViewById(R.id.checkbox_gender);
+
+            checkBirth.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View rootView) {
+                    if(((CompoundButton) rootView).isChecked()) {
+                        // true
+                    } else {
+                        // false
+                    }
+                }
+            });
+            checkDrivers.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View rootView) {
+                    if(((CompoundButton) rootView).isChecked()) {
+                        // true
+                    } else {
+                        // false
+                    }
+                }
+            });
+            checkSocial.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View rootView) {
+                    if(((CompoundButton) rootView).isChecked()) {
+                        // true
+                    } else {
+                        // false
+                    }
+                }
+            });
+            checkPassport.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View rootView) {
+                    if(((CompoundButton) rootView).isChecked()) {
+                        // true
+                    } else {
+                        // false
+                    }
+                }
+            });
+            checkName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View rootView) {
+                    if(((CompoundButton) rootView).isChecked()) {
+                        // true
+                    } else {
+                        // false
+                    }
+                }
+            });
+            checkGender.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View rootView) {
+                    if(((CompoundButton) rootView).isChecked()) {
+                        // true
+                    } else {
+                        // false
+                    }
+                }
+            });
+
             final Button goButton = rootView.findViewById(R.id.go_button);
             goButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    // Carry over saved user choices and switch fragments
                 }
             });
 

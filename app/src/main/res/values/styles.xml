@@ -20,12 +20,13 @@
     </style>
 
     <style name="FieldTitleText" parent="SubtitleText">
-        <item name="android:textSize">30dp</item>
+        <item name="android:textSize">25dp</item>
     </style>
 
     <style name="DefaultButton" parent="Base.TextAppearance.AppCompat.Button">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:background">@color/colorPrimary</item>
+        <item name="android:textSize">20dp</item>
     </style>
 
     <style name="Divider">

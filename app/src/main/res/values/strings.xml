@@ -5,10 +5,15 @@
     <string name="go_button">Go</string>
 
     <!-- Documents Tab Strings -->
-    <string name="documents_tab_selection_state_textview">Select state:</string>
-    <string name="documents_tab_selection_document_textview">Select document:</string>
+    <string name="documents_tab_selection_state_textview">Where are you currently residing?</string>
+    <string name="documents_tab_selection_document_textview">What records would you like to change?</string>
+    <string name="documents_tab_selection_petition_textview">Have you already submitted a name change petition to your local circuit court?</string>
+    <string name="documents_tab_selection_change_textview">What will you be changing?</string>
     <string name="documents_tab_selection_title">Find documents</string>
     <string name="documents_tab_selection_subtitle">Search by state and type</string>
+    <string name="radio_yes">Yes</string>
+    <string name="radio_no">No</string>
+    <string name="radio_idk">Not sure</string>
     <string name="home_tab_title">LegallyMe</string>
     <string name="home_tab_subtitle">Overcoming barriers, together</string>
     <string name="home_tab_splash_screen_text">Welcome to LegallyMe! Here you\'ll find resources on a per-state basis for legal documents related to transitioning. Navigate to the \'Documents\' tab to begin.</string>
@@ -16,4 +21,10 @@
     <string name="favorites_tab_subtitle"><![CDATA[Your saved documents & information]]></string>
     <string name="search_tab_title">Search for local lawyers</string>
     <string name="search_tab_subtitle"><![CDATA[Local lawyers, paralegals, & law firms]]></string>
+    <string name="birth_cert">Birth certificate</string>
+    <string name="drivers">Driver\'s license</string>
+    <string name="social">Social security</string>
+    <string name="passport">Passport</string>
+    <string name="gender">Gender marker</string>
+    <string name="name">Name</string>
 </resources>
