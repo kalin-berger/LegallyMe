@@ -13,19 +13,17 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.github.crummish.legallyme.activity.R;
+import com.github.crummish.legallyme.document.RecordField;
 import com.github.crummish.legallyme.document.RecordType;
 import com.github.crummish.legallyme.document.RecordState;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.TreeMap;
-import java.util.TreeSet;
+import java.util.Arrays;
 
 public class DocumentsTabFragment extends BaseTitledFragment {
 
@@ -34,18 +32,6 @@ public class DocumentsTabFragment extends BaseTitledFragment {
         super.onCreate(savedInstanceState);
         // First time opening, initialize to selection screen
         SelectScreenFragment selectScreen = new SelectScreenFragment();
-        Bundle b = new Bundle();
-        // Example demonstration of selection screen
-        // TODO: Replace example selection screen with flexible implementation
-        TreeMap<RecordState, TreeSet<RecordType>> stateDocumentsMap = new TreeMap<>();
-        TreeSet<RecordType> virginiaDocs = new TreeSet<>();
-        virginiaDocs.add(RecordType.BIRTH_CERTIFICATE);
-        virginiaDocs.add(RecordType.DRIVERS_LICENSE);
-        virginiaDocs.add(RecordType.PASSPORT);
-        virginiaDocs.add(RecordType.SOCIAL_SECURITY);
-        stateDocumentsMap.put(RecordState.VIRGINIA, virginiaDocs);
-        b.putSerializable(SelectScreenFragment.EXTRA_STATE_DOCUMENTS_MAP, (Serializable) stateDocumentsMap);
-        selectScreen.setArguments(b);
 
         setTitle(getString(R.string.documents_tab_selection_title), getString(R.string.documents_tab_selection_subtitle));
 
@@ -56,21 +42,24 @@ public class DocumentsTabFragment extends BaseTitledFragment {
 
     public static class SelectScreenFragment extends Fragment {
 
-        private final static String EXTRA_STATE_DOCUMENTS_MAP = "stateDocumentsMap";
-        private TreeMap<RecordState, TreeSet<RecordType>> stateDocumentsMap;
+        RecordState selectedState;
+        ArrayList<RecordType> selectedRecordTypes;
+        ArrayList<RecordField> selectedRecordFields;
+        boolean courtOrderCompleted;
+
+        //TODO: Normalize extra names to be usable in ChecklistFragment
+        public static final String  EXTRA_SELECTED_STATE = "extraSelectedState",
+                                    EXTRA_SELECTED_RECORD_TYPES = "extraSelectedRecordTypes",
+                                    EXTRA_SELECTED_RECORD_FIELDS = "extraSelectedRecordFields",
+                                    EXTRA_COURT_ORDER_COMPLETED = "extraCourtOrderCompleted";
 
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            if(savedInstanceState != null) {
-                stateDocumentsMap = (TreeMap<RecordState, TreeSet<RecordType>>) savedInstanceState.getSerializable(EXTRA_STATE_DOCUMENTS_MAP);
-            }
-            else if(getArguments() != null) {
-                stateDocumentsMap = (TreeMap<RecordState, TreeSet<RecordType>>) getArguments().getSerializable(EXTRA_STATE_DOCUMENTS_MAP);
-            }
-            else {
-                //throw new IllegalArgumentException("No state document information provided");
-            }
+            //TODO: Recover selected items from savedInstanceState if exists
+            selectedRecordTypes = new ArrayList<>();
+            selectedRecordFields = new ArrayList<>();
+            courtOrderCompleted = false;
         }
 
         @Nullable
@@ -82,18 +71,13 @@ public class DocumentsTabFragment extends BaseTitledFragment {
 
             final Spinner stateSpinner = rootView.findViewById(R.id.select_state_spinner);
 
-            ArrayAdapter<RecordState> stateNameAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, new ArrayList<RecordState>(stateDocumentsMap.keySet()));
+            ArrayAdapter<RecordState> stateNameAdapter = new ArrayAdapter<>(getActivity().getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, Arrays.asList(RecordState.values()));
             stateSpinner.setAdapter(stateNameAdapter);
-
-            //final Spinner documentSpinner = rootView.findViewById(R.id.select_document_spinner);
 
             stateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                    RecordState selectedState = (RecordState) stateSpinner.getSelectedItem();
-                    ArrayList<RecordType> availableDocuments = new ArrayList<>(stateDocumentsMap.get(selectedState));
-                    //ArrayAdapter<RecordType> documentTypeAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, availableDocuments);
-                    //documentSpinner.setAdapter(documentTypeAdapter);
+                    selectedState = (RecordState) stateSpinner.getSelectedItem();
                 }
 
                 @Override
@@ -130,9 +114,9 @@ public class DocumentsTabFragment extends BaseTitledFragment {
                 @Override
                 public void onClick(View rootView) {
                     if(((CompoundButton) rootView).isChecked()) {
-                        // true
+                        selectedRecordTypes.add(RecordType.BIRTH_CERTIFICATE);
                     } else {
-                        // false
+                        selectedRecordTypes.remove(RecordType.BIRTH_CERTIFICATE);
                     }
                 }
             });
@@ -140,9 +124,9 @@ public class DocumentsTabFragment extends BaseTitledFragment {
                 @Override
                 public void onClick(View rootView) {
                     if(((CompoundButton) rootView).isChecked()) {
-                        // true
+                        selectedRecordTypes.add(RecordType.DRIVERS_LICENSE);
                     } else {
-                        // false
+                        selectedRecordTypes.remove(RecordType.DRIVERS_LICENSE);
                     }
                 }
             });
@@ -150,9 +134,9 @@ public class DocumentsTabFragment extends BaseTitledFragment {
                 @Override
                 public void onClick(View rootView) {
                     if(((CompoundButton) rootView).isChecked()) {
-                        // true
+                        selectedRecordTypes.add(RecordType.SOCIAL_SECURITY);
                     } else {
-                        // false
+                        selectedRecordTypes.remove(RecordType.SOCIAL_SECURITY);
                     }
                 }
             });
@@ -160,9 +144,9 @@ public class DocumentsTabFragment extends BaseTitledFragment {
                 @Override
                 public void onClick(View rootView) {
                     if(((CompoundButton) rootView).isChecked()) {
-                        // true
+                        selectedRecordTypes.add(RecordType.PASSPORT);
                     } else {
-                        // false
+                        selectedRecordTypes.remove(RecordType.PASSPORT);
                     }
                 }
             });
@@ -170,9 +154,10 @@ public class DocumentsTabFragment extends BaseTitledFragment {
                 @Override
                 public void onClick(View rootView) {
                     if(((CompoundButton) rootView).isChecked()) {
-                        // true
+                        selectedRecordFields.add(RecordField.NAME);
                     } else {
-                        // false
+                        selectedRecordFields.remove(RecordField.NAME);
+
                     }
                 }
             });
@@ -180,9 +165,10 @@ public class DocumentsTabFragment extends BaseTitledFragment {
                 @Override
                 public void onClick(View rootView) {
                     if(((CompoundButton) rootView).isChecked()) {
-                        // true
+                        selectedRecordFields.add(RecordField.GENDER_MARKER);
                     } else {
-                        // false
+                        selectedRecordFields.remove(RecordField.GENDER_MARKER);
+
                     }
                 }
             });
@@ -192,80 +178,103 @@ public class DocumentsTabFragment extends BaseTitledFragment {
                 @Override
                 public void onClick(View view) {
                     // Carry over saved user choices and switch fragments
-                    swapFragment();
+                    ChecklistFragment checklistFragment = new ChecklistFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(EXTRA_SELECTED_STATE, selectedState);
+                    bundle.putSerializable(EXTRA_SELECTED_RECORD_TYPES, selectedRecordTypes);
+                    bundle.putSerializable(EXTRA_SELECTED_RECORD_FIELDS, selectedRecordFields);
+                    bundle.putBoolean(EXTRA_COURT_ORDER_COMPLETED, courtOrderCompleted);
+                    checklistFragment.setArguments(bundle);
+
+                    FragmentTransaction ft = getParentFragment().getChildFragmentManager().beginTransaction();
+                    ((DocumentsTabFragment) getParentFragment()).setTitle("Your personalized checklist", "Navigate your transition");
+
+                    ft.replace(R.id.content_container, checklistFragment)
+                            .addToBackStack("testname")
+                            .commit();
                 }
             });
 
             return rootView;
         }
-
-        private void swapFragment() {
-            ChecklistFragment checklistFragment = new ChecklistFragment();
-
-            FragmentTransaction frag = getChildFragmentManager().beginTransaction();
-            frag.replace(R.id.content_container, checklistFragment)
-                    .addToBackStack(null)
-                    .commit();
-        }
     }
 
     // Fragment to display checklist; currently populated with static dummy data for demo
     public static class ChecklistFragment extends Fragment {
+        RecordState selectedState;
+        ArrayList<RecordType> selectedRecordTypes;
+        ArrayList<RecordField> selectedRecordFields;
+        boolean courtOrderCompleted;
+
+        public static final String  EXTRA_SELECTED_STATE = "extraSelectedState",
+                EXTRA_SELECTED_RECORD_TYPES = "extraSelectedRecordTypes",
+                EXTRA_SELECTED_RECORD_FIELDS = "extraSelectedRecordFields",
+                EXTRA_COURT_ORDER_COMPLETED = "extraCourtOrderCompleted";
+
         @Nullable
         @Override
         public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
             super.onCreateView(inflater, container, savedInstanceState);
-
-            Boolean petition_bool;
-            Boolean birth_bool;
-            Boolean drivers_bool;
-            Boolean social_bool;
-            Boolean passport_bool;
-            Boolean name_bool;
-            Boolean gender_bool;
-
             View rootView = inflater.inflate(R.layout.fragment_documents_tab_checklist, container, false);
+
+            if(getArguments() != null) {
+                selectedState = (RecordState) getArguments().getSerializable(EXTRA_SELECTED_STATE);
+                selectedRecordTypes = (ArrayList<RecordType>) getArguments().getSerializable(EXTRA_SELECTED_RECORD_TYPES);
+                selectedRecordFields = (ArrayList<RecordField>) getArguments().getSerializable(EXTRA_SELECTED_RECORD_FIELDS);
+                courtOrderCompleted = getArguments().getBoolean(EXTRA_COURT_ORDER_COMPLETED);
+            }
+            else {
+                selectedState = RecordState.VIRGINIA;
+                selectedRecordTypes = new ArrayList<>();
+                selectedRecordFields = new ArrayList<>();
+                courtOrderCompleted = false;
+            }
+
             final TextView info = (TextView) rootView.findViewById(R.id.checklist_info);
+            //TODO: Link data to blurbs in database
             String info_string = "This is your personalized checklist! You still need to:\n\n";
 
-            if(petition_bool = true){
+            if(courtOrderCompleted){
                 String petition = "You first must submit a name change petition to your local circuit court.\nFill out and submit forms: Application for Name Change, Order for Name Change\n\n";
                 info_string = info_string + petition;
             }
 
-            if(gender_bool = true) {
-                if(birth_bool = true) {
+            if(selectedRecordFields.contains(RecordField.GENDER_MARKER)) {
+                if(selectedRecordTypes.contains(RecordType.BIRTH_CERTIFICATE)) {
                     String birth_gender = "Change your birth certificate:\n1. Submit Application for Sex Change and Order for Sex Change forms to your local circuit court\n2. Fill out Application for Birth Certificate\n\n";
                     info_string = info_string + birth_gender;
                 }
-                if(drivers_bool = true) {
+                if(selectedRecordTypes.contains(RecordType.DRIVERS_LICENSE)) {
                     String drivers_gender = "Change your driver's license:\n1. Submit VA Driver's License and ID Card Application\n2. Submit VA Gender Designation Change Request signed by a medical professional\n3. Some counties may also require you to submit an Order for Sex Change from your local court\n\n";
                     info_string = info_string + drivers_gender;
                 }
-                if(social_bool = true) {
+                if(selectedRecordTypes.contains(RecordType.PASSPORT)) {
                     //
                 }
-                if(passport_bool = true) {
+                if(selectedRecordTypes.contains(RecordType.SOCIAL_SECURITY)) {
                     //
                 }
-            } else if(gender_bool = false) {
-                if(birth_bool = true) {
+            }
+            else {
+                if(selectedRecordTypes.contains(RecordType.BIRTH_CERTIFICATE)) {
                     String birth_name = "Change your birth certificate:\n1. Fill out Application for Birth Certificate\n\n";
                     info_string = info_string + birth_name;
                 }
-                if(drivers_bool = true) {
+                if(selectedRecordTypes.contains(RecordType.DRIVERS_LICENSE)) {
                     String drivers_name = "Change your driver's license:\n1. Submit VA Driver's License and ID Card Application\n\n";
                     info_string = info_string + drivers_name;
                 }
-                if(social_bool = true) {
+                if(selectedRecordTypes.contains(RecordType.PASSPORT)) {
                     //
                 }
-                if(passport_bool = true) {
+                if(selectedRecordTypes.contains(RecordType.SOCIAL_SECURITY)) {
                     //
                 }
             }
 
             info.setText(info_string);
+
+            //TODO: List relevant documents from database
 
             return rootView;
         }

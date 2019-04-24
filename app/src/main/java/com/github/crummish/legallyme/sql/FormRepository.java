@@ -37,4 +37,8 @@ public class FormRepository {
             return null;
         }
     }
+
+    public void deleteAll() {
+        formDao.deleteAll();
+    }
 }

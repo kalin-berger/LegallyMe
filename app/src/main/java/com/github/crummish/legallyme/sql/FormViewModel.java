@@ -23,4 +23,8 @@ public class FormViewModel extends AndroidViewModel {
     public void insert(RecordChangeForm form) {
         repository.insert(form);
     }
+
+    public void deleteAll() {
+        repository.deleteAll();
+    }
 }
