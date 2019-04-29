@@ -27,4 +27,8 @@
     <string name="passport">Passport</string>
     <string name="gender">Gender marker</string>
     <string name="name">Name</string>
+
+    <!-- File Link Strings -->
+    <string name="app_sex_change"><a href="http://www.courts.state.va.us/forms/circuit/cc1411.pdf">Application for Sex Change</a></string>
+    <string name="app_name_change"><a href="http://www.courts.state.va.us/forms/circuit/cc1411.pdf">Application for Name Change</a></string>
 </resources>

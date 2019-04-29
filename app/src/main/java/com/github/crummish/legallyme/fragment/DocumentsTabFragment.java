@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -235,13 +236,13 @@ public class DocumentsTabFragment extends BaseTitledFragment {
             String info_string = "This is your personalized checklist! You still need to:\n\n";
 
             if(courtOrderCompleted){
-                String petition = "You first must submit a name change petition to your local circuit court.\nFill out and submit forms: Application for Name Change, Order for Name Change\n\n";
+                String petition = "You first must submit a name change petition to your local circuit court.\nFill out and submit forms: " + getString(R.string.app_name_change) + "\n\n";
                 info_string = info_string + petition;
             }
 
             if(selectedRecordFields.contains(RecordField.GENDER_MARKER)) {
                 if(selectedRecordTypes.contains(RecordType.BIRTH_CERTIFICATE)) {
-                    String birth_gender = "Change your birth certificate:\n1. Submit Application for Sex Change and Order for Sex Change forms to your local circuit court\n2. Fill out Application for Birth Certificate\n\n";
+                    String birth_gender = "Change your birth certificate:\n1. " + getString(R.string.app_sex_change) + " and Order for Sex Change forms to your local circuit court\n2. Fill out Application for Birth Certificate\n\n";
                     info_string = info_string + birth_gender;
                 }
                 if(selectedRecordTypes.contains(RecordType.DRIVERS_LICENSE)) {
@@ -273,6 +274,7 @@ public class DocumentsTabFragment extends BaseTitledFragment {
             }
 
             info.setText(info_string);
+            info.setMovementMethod(LinkMovementMethod.getInstance());
 
             //TODO: List relevant documents from database
 
