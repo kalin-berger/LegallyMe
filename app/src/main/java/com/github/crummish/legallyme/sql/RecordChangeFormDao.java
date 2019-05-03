@@ -8,7 +8,7 @@ import android.arch.persistence.room.Query;
 import java.util.List;
 
 @Dao
-public interface FormDao {
+public interface RecordChangeFormDao {
 
     @Insert
     void insert(RecordChangeForm form);

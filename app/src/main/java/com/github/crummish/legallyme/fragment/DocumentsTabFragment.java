@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -233,12 +234,14 @@ public class DocumentsTabFragment extends BaseTitledFragment {
 
             final TextView info = (TextView) rootView.findViewById(R.id.checklist_info);
             //TODO: Link data to blurbs in database
-            String info_string = "This is your personalized checklist! You still need to:\n\n";
+            String info_string = getString(R.string.checklistHeading);
 
-            if(courtOrderCompleted){
-                String petition = "You first must submit a name change petition to your local circuit court.\nFill out and submit forms: " + getString(R.string.app_name_change) + "\n\n";
-                info_string = info_string + petition;
+            if(!courtOrderCompleted){
+                String petition = getString(R.string.courtOrderPetitionInstructions);
+                info_string += petition;
             }
+
+
 
             if(selectedRecordFields.contains(RecordField.GENDER_MARKER)) {
                 if(selectedRecordTypes.contains(RecordType.BIRTH_CERTIFICATE)) {

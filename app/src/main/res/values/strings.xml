@@ -31,4 +31,6 @@
     <!-- File Link Strings -->
     <string name="app_sex_change"><a href="http://www.courts.state.va.us/forms/circuit/cc1411.pdf">Application for Sex Change</a></string>
     <string name="app_name_change"><a href="http://www.courts.state.va.us/forms/circuit/cc1411.pdf">Application for Name Change</a></string>
+    <string name="checklistHeading">This is your personalized checklist! You still need to:\\n\\n</string>
+    <string name="courtOrderPetitionInstructions">You first must submit a name change petition to your local circuit court.\nFill out and submit an Application for Name Change.</string>
 </resources>

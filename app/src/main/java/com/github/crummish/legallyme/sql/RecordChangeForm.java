@@ -14,6 +14,14 @@ import java.net.URL;
 @Entity(tableName = "record_change_form_table", primaryKeys = {"state", "type", "field"})
 public class RecordChangeForm {
 
+    public RecordChangeForm(@NonNull RecordState state, @NonNull RecordType type, @NonNull RecordField field, String title, URL url) {
+        this.state = state;
+        this.type = type;
+        this.field = field;
+        this.title = title;
+        this.url = url;
+    }
+
     @TypeConverters(RecordStateConverter.class)
     @NonNull
     private RecordState state;

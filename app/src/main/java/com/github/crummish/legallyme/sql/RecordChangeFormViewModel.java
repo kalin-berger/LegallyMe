@@ -6,13 +6,13 @@ import android.arch.lifecycle.LiveData;
 
 import java.util.List;
 
-public class FormViewModel extends AndroidViewModel {
-    private FormRepository repository;
+public class RecordChangeFormViewModel extends AndroidViewModel {
+    private RecordChangeFormRepository repository;
     private LiveData<List<RecordChangeForm>> allForms;
 
-    public FormViewModel(Application application) {
+    public RecordChangeFormViewModel(Application application) {
         super(application);
-        repository = new FormRepository(application);
+        repository = new RecordChangeFormRepository(application);
         allForms = repository.getAllForms();
     }
 
