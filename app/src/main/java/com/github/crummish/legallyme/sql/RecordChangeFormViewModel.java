@@ -13,7 +13,7 @@ public class RecordChangeFormViewModel extends AndroidViewModel {
     public RecordChangeFormViewModel(Application application) {
         super(application);
         repository = new RecordChangeFormRepository(application);
-        allForms = repository.getAllForms();
+        allForms = repository.getFindFormsResults();
     }
 
     public LiveData<List<RecordChangeForm>> getAllForms() {

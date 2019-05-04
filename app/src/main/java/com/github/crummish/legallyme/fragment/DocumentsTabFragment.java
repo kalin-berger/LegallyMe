@@ -9,14 +9,19 @@ import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.github.crummish.legallyme.activity.R;
 import com.github.crummish.legallyme.document.RecordField;
@@ -47,12 +52,11 @@ public class DocumentsTabFragment extends BaseTitledFragment {
         RecordState selectedState;
         ArrayList<RecordType> selectedRecordTypes;
         ArrayList<RecordField> selectedRecordFields;
-        boolean courtOrderCompleted;
+        boolean courtOrderCompleted, courtOrderItemSelected = false;
 
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            //TODO: Recover selected items from savedInstanceState if exists
             Bundle args = null;
             if(getArguments() != null) {
                 args = getArguments();
@@ -101,6 +105,7 @@ public class DocumentsTabFragment extends BaseTitledFragment {
             courtOrderCompletedOptions.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                    courtOrderItemSelected = true;
                     if(i == R.id.radio_yes){
                         courtOrderCompleted = true;
                     }
@@ -184,7 +189,16 @@ public class DocumentsTabFragment extends BaseTitledFragment {
             goButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    // Carry over saved user choices and switch fragments
+                    if(selectedState == null ||
+                        selectedRecordTypes.isEmpty() ||
+                        selectedRecordFields.isEmpty() ||
+                        !courtOrderItemSelected) {
+                        final Animation animShake = AnimationUtils.loadAnimation(getContext(), R.anim.shake);
+                        goButton.startAnimation(animShake);
+                        Toast.makeText(getContext(), "Please answer all fields", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
                     ChecklistFragment checklistFragment = new ChecklistFragment();
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(ExtrasKeys.EXTRA_SELECTED_STATE, selectedState);
@@ -197,7 +211,7 @@ public class DocumentsTabFragment extends BaseTitledFragment {
                     ((DocumentsTabFragment) getParentFragment()).setTitle("Your personalized checklist", "Navigate your transition");
 
                     ft.replace(R.id.content_container, checklistFragment)
-                            .addToBackStack("testname")
+                            .addToBackStack(null)
                             .commit();
                 }
             });
@@ -213,33 +227,39 @@ public class DocumentsTabFragment extends BaseTitledFragment {
         ArrayList<RecordField> selectedRecordFields;
         boolean courtOrderCompleted;
 
-        public static final String  EXTRA_SELECTED_STATE = "extraSelectedState",
-                EXTRA_SELECTED_RECORD_TYPES = "extraSelectedRecordTypes",
-                EXTRA_SELECTED_RECORD_FIELDS = "extraSelectedRecordFields",
-                EXTRA_COURT_ORDER_COMPLETED = "extraCourtOrderCompleted";
-
         @Nullable
         @Override
         public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
             super.onCreateView(inflater, container, savedInstanceState);
-            View rootView = inflater.inflate(R.layout.fragment_documents_tab_checklist, container, false);
+            //View rootView = inflater.inflate(R.layout.fragment_documents_tab_checklist, container, false);
 
+            Bundle args = null;
             if(getArguments() != null) {
-                selectedState = (RecordState) getArguments().getSerializable(EXTRA_SELECTED_STATE);
-                selectedRecordTypes = (ArrayList<RecordType>) getArguments().getSerializable(EXTRA_SELECTED_RECORD_TYPES);
-                selectedRecordFields = (ArrayList<RecordField>) getArguments().getSerializable(EXTRA_SELECTED_RECORD_FIELDS);
-                courtOrderCompleted = getArguments().getBoolean(EXTRA_COURT_ORDER_COMPLETED);
+                args = getArguments();
+            }
+            else if(savedInstanceState != null) {
+                args = savedInstanceState;
+            }
+            if(args != null) {
+                selectedState = (RecordState) args.getSerializable(ExtrasKeys.EXTRA_SELECTED_STATE);
+                selectedRecordTypes = (ArrayList<RecordType>) args.getSerializable(ExtrasKeys.EXTRA_SELECTED_RECORD_TYPES);
+                selectedRecordFields = (ArrayList<RecordField>) args.getSerializable(ExtrasKeys.EXTRA_SELECTED_RECORD_FIELDS);
+                courtOrderCompleted = args.getBoolean(ExtrasKeys.EXTRA_COURT_ORDER_COMPLETED);
             }
             else {
-                selectedState = RecordState.FEDERAL;
                 selectedRecordTypes = new ArrayList<>();
                 selectedRecordFields = new ArrayList<>();
-                courtOrderCompleted = false;
             }
 
-            final TextView info = rootView.findViewById(R.id.checklist_info);
-            info.setMovementMethod(LinkMovementMethod.getInstance());
             //TODO: Link data to blurbs in database
+            ScrollView rootView = new ScrollView(getContext());
+            LinearLayout layout = new LinearLayout(getContext());
+            for(RecordType recordType : selectedRecordTypes) {
+                for(RecordField recordField : selectedRecordFields) {
+                    TextView instruction;
+
+                }
+            }
             String info_string = getString(R.string.checklistHeading);
 
 
