@@ -28,15 +28,5 @@
     <string name="gender">Gender marker</string>
     <string name="name">Name</string>
 
-    <!-- File Link Strings -->
-    <string name="application_for_name_change">http://www.courts.state.va.us/forms/circuit/cc1411.pdf</string>
-    <string name="order_for_name_change">http://www.cityofchesapeake.net/assets/forms/departments/circuit_court_clerk/order-for-name-change-adult.pdf</string>
-    <string name="petition_for_fee_waiver">http://www.courts.state.va.us/forms/circuit/cc1414.pdf</string>
-    <string name="application_for_certification_of_a_vital_record">http://www.vdh.virginia.gov/content/uploads/sites/93/2016/07/appform.pdf</string>
-    <string name="petition_for_change_of_sex">http://www.courts.state.va.us/forms/circuit/cc1451.pdf</string>
-    <string name="order_for_change_of_sex">http://www.transequality.org/sites/default/files/docs/id/VA%20Order%20for%20Change%20of%20Sex.pdf</string>
-    <string name="gender_designation_change_request">https://www.dmv.virginia.gov/webdoc/pdf/dl17.pdf</string>
-    <string name="drivers_license_and_identification_card_application">https://www.dmv.virginia.gov/webdoc/pdf/dl1p.pdf</string>
-
-    <string name="checklistHeading">This is your personalized checklist! You still need to:\\n\\n</string>
+    <string name="checklistHeading">This is your personalized checklist! You still need to:</string>
 </resources>
