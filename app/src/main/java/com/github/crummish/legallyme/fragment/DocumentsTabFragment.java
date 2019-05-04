@@ -13,7 +13,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CheckedTextView;
 import android.widget.CompoundButton;
+import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -237,11 +239,10 @@ public class DocumentsTabFragment extends BaseTitledFragment {
                 courtOrderCompleted = false;
             }
 
-            final TextView info = rootView.findViewById(R.id.checklist_info);
-            info.setMovementMethod(LinkMovementMethod.getInstance());
             //TODO: Link data to blurbs in database
-            String info_string = getString(R.string.checklistHeading);
-
+            ListView checkList = (ListView) rootView.findViewById(R.id.checklist_list);
+            ChecklistAdapter adapter = new ChecklistAdapter(selectedState, courtOrderCompleted, selectedRecordTypes, selectedRecordFields, getContext());
+            checkList.setAdapter(adapter);
 
             return rootView;
         }
