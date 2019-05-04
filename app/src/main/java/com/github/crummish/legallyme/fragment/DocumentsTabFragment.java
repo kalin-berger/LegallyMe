@@ -233,6 +233,7 @@ public class DocumentsTabFragment extends BaseTitledFragment {
             }
 
             final TextView info = (TextView) rootView.findViewById(R.id.checklist_info);
+            info.setMovementMethod(LinkMovementMethod.getInstance());
             //TODO: Link data to blurbs in database
             String info_string = getString(R.string.checklistHeading);
 
@@ -245,7 +246,7 @@ public class DocumentsTabFragment extends BaseTitledFragment {
 
             if(selectedRecordFields.contains(RecordField.GENDER_MARKER)) {
                 if(selectedRecordTypes.contains(RecordType.BIRTH_CERTIFICATE)) {
-                    String birth_gender = "Change your birth certificate:\n1. " + getString(R.string.app_sex_change) + " and Order for Sex Change forms to your local circuit court\n2. Fill out Application for Birth Certificate\n\n";
+                    String birth_gender = "Change your birth certificate:\n1. Submit " + getString(R.string.app_sex_change) + " and Order for Sex Change forms to your local circuit court\n2. Fill out Application for Birth Certificate\n\n";
                     info_string = info_string + birth_gender;
                 }
                 if(selectedRecordTypes.contains(RecordType.DRIVERS_LICENSE)) {
@@ -276,8 +277,7 @@ public class DocumentsTabFragment extends BaseTitledFragment {
                 }
             }
 
-            info.setText(info_string);
-            info.setMovementMethod(LinkMovementMethod.getInstance());
+            //info.setText(info_string);
 
             //TODO: List relevant documents from database
 
