@@ -14,8 +14,16 @@ public class RecordChangeDatabasePrePopulateHelper {
 
     public static RecordChangeForm[] getForms() {
         return new RecordChangeForm[] {
-            createForm(RecordState.VIRGINIA, RecordType.GENERAL, RecordField.GENDER_MARKER, "Application for Sex Change","http://www.courts.state.va.us/forms/circuit/cc1411.pdf"),
             createForm(RecordState.VIRGINIA, RecordType.GENERAL, RecordField.NAME, "Application for Name Change","http://www.courts.state.va.us/forms/circuit/cc1411.pdf"),
+            createForm(RecordState.VIRGINIA, RecordType.GENERAL, RecordField.NAME, "Order for Name Change", "http://www.cityofchesapeake.net/assets/forms/departments/circuit_court_clerk/order-for-name-change-adult.pdf"),
+            createForm(RecordState.VIRGINIA, RecordType.GENERAL, RecordField.NAME, "Petition for Fee Waiver", "http://www.courts.state.va.us/forms/circuit/cc1414.pdf"),
+            createForm(RecordState.VIRGINIA, RecordType.BIRTH_CERTIFICATE, RecordField.GENDER_MARKER, "Application for Certification of a Vital Record", "http://www.vdh.virginia.gov/content/uploads/sites/93/2016/07/appform.pdf"),
+            createForm(RecordState.VIRGINIA, RecordType.BIRTH_CERTIFICATE, RecordField.GENDER_MARKER, "Petition for Change of Sex", "http://www.courts.state.va.us/forms/circuit/cc1451.pdf"),
+            createForm(RecordState.VIRGINIA, RecordType.BIRTH_CERTIFICATE, RecordField.GENDER_MARKER, "Order for Change of Sex", "http://www.transequality.org/sites/default/files/docs/id/VA%20Order%20for%20Change%20of%20Sex.pdf"),
+            createForm(RecordState.VIRGINIA, RecordType.BIRTH_CERTIFICATE, RecordField.NAME, "Application for Certification of a Vital Record", "http://www.vdh.virginia.gov/content/uploads/sites/93/2016/07/appform.pdf"),
+            createForm(RecordState.VIRGINIA, RecordType.DRIVERS_LICENSE, RecordField.GENDER_MARKER, "Gender Designation Change Request", "https://www.dmv.virginia.gov/webdoc/pdf/dl17.pdf"),
+            createForm(RecordState.VIRGINIA, RecordType.DRIVERS_LICENSE, RecordField.GENDER_MARKER, "Driver's License and Identification Card Application", "https://www.dmv.virginia.gov/webdoc/pdf/dl1p.pdf"),
+            createForm(RecordState.VIRGINIA, RecordType.DRIVERS_LICENSE, RecordField.NAME, "Driver's License and Identification Card Application", "https://www.dmv.virginia.gov/webdoc/pdf/dl1p.pdf")
         };
     }
 
