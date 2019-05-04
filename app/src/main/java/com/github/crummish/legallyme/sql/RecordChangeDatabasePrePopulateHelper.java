@@ -75,8 +75,6 @@ public class RecordChangeDatabasePrePopulateHelper {
                                 "\u2022 Complete the Driver’s License and Identification Card Application.\n" +
                                 "\u2022 Submit this application either in person or by mail with a $5 fee.\n" +
                                 "\u2022 You will need to bring your current valid driver’s license or ID card, as well as the payment fee of $32 for a new license in cash, check, or card.\n")
-
-
         };
     }
 
