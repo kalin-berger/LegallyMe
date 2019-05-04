@@ -4,10 +4,13 @@ import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
+import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
+
+@TypeConverters({RecordStateConverter.class, RecordTypeConverter.class, RecordFieldConverter.class, UrlConverter.class})
 @Database(entities = {RecordChangeForm.class, RecordChangeInstructions.class}, version = 1, exportSchema = false)
 public abstract class RecordChangeDatabase extends RoomDatabase {
     public abstract RecordChangeFormDao recordChangeFormDao();

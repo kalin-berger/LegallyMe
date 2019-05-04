@@ -22,21 +22,17 @@ public class RecordChangeForm {
         this.url = url;
     }
 
-    @TypeConverters(RecordStateConverter.class)
     @NonNull
     private RecordState state;
 
-    @TypeConverters(RecordTypeConverter.class)
     @NonNull
     private RecordType type;
 
-    @TypeConverters(RecordFieldConverter.class)
     @NonNull
     private RecordField field;
 
     private String title;
 
-    @TypeConverters(UrlConverter.class)
     private URL url;
 
     public RecordState getState() {

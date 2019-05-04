@@ -11,15 +11,12 @@ import com.github.crummish.legallyme.document.RecordType;
 @Entity(tableName = "record_change_instructions_table", primaryKeys = {"state", "type", "field", "stepNo"})
 public class RecordChangeInstructions {
 
-    @TypeConverters(RecordStateConverter.class)
     @NonNull
     private RecordState state;
 
-    @TypeConverters(RecordTypeConverter.class)
     @NonNull
     private RecordType type;
 
-    @TypeConverters(RecordFieldConverter.class)
     @NonNull
     private RecordField field;
 

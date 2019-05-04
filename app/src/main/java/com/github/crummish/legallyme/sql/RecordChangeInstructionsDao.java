@@ -23,9 +23,10 @@ public interface RecordChangeInstructionsDao {
     @Query("SELECT * FROM record_change_instructions_table ORDER BY state")
     LiveData<List<RecordChangeInstructions>> getAllInstructions();
 
-    @Query("SELECT instructions, stepNo FROM record_change_instructions_table WHERE " +
+    @Query("SELECT * FROM record_change_instructions_table WHERE " +
             "state LIKE :state AND " +
             "type LIKE :type AND " +
-            "field LIKE :field")
+            "field LIKE :field " +
+            "ORDER BY stepNo")
     LiveData<List<RecordChangeInstructions>> findInstructions(RecordState state, RecordType type, RecordField field);
 }
