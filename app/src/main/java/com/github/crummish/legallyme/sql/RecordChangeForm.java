@@ -11,10 +11,10 @@ import com.github.crummish.legallyme.document.RecordState;
 
 import java.net.URL;
 
-@Entity(tableName = "record_change_form_table", primaryKeys = {"state", "type", "field"})
+@Entity(tableName = "record_change_form_table", primaryKeys = {"state", "type", "field", "title"})
 public class RecordChangeForm {
 
-    public RecordChangeForm(@NonNull RecordState state, @NonNull RecordType type, @NonNull RecordField field, String title, URL url) {
+    public RecordChangeForm(@NonNull RecordState state, @NonNull RecordType type, @NonNull RecordField field, @NonNull String title, @NonNull URL url) {
         this.state = state;
         this.type = type;
         this.field = field;
@@ -34,9 +34,11 @@ public class RecordChangeForm {
     @NonNull
     private RecordField field;
 
+    @NonNull
     private String title;
 
     @TypeConverters(UrlConverter.class)
+    @NonNull
     private URL url;
 
     public RecordState getState() {
