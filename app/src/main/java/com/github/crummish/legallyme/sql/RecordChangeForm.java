@@ -76,4 +76,16 @@ public class RecordChangeForm {
     public void setTitle(String title) {
         this.title = title;
     }
+
+    @Override
+    public String toString() {
+        String result = "";
+        result += "State: " + state + "\n"
+                + "Type: " + type + "\n"
+                + "Field: " + field + "\n"
+                + "Title: " + title + "\n"
+                + "URL: " + url;
+
+        return result;
+    }
 }

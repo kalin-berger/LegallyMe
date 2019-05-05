@@ -30,13 +30,6 @@ public class MainActivity extends AppCompatActivity {
         formViewModel = ViewModelProviders.of(this).get(RecordChangeFormViewModel.class);
         instructionsViewModel = ViewModelProviders.of(this).get(RecordChangeInstructionsViewModel.class);
 
-        try {
-            deleteDatabase("record_change_database");
-            formViewModel.insert(new RecordChangeForm(RecordState.VIRGINIA, RecordType.GENERAL, RecordField.NAME, "Dummy Form", new URL("http://www.google.com/")));
-        } catch(MalformedURLException e) {
-
-        }
-
         setTheme(R.style.Theme_AppCompat_Light_NoActionBar);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -52,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
         final int[] ICONS = new int[]{
                 R.drawable.home_tab,
                 R.drawable.documents_tab,
-                R.drawable.favorites_tab,
                 R.drawable.search_tab
         };
 
@@ -62,6 +54,5 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.getTabAt(0).setIcon(ICONS[0]);
         tabLayout.getTabAt(1).setIcon(ICONS[1]);
         tabLayout.getTabAt(2).setIcon(ICONS[2]);
-        tabLayout.getTabAt(3).setIcon(ICONS[3]);
     }
 }

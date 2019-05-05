@@ -77,4 +77,16 @@ public class RecordChangeInstructions {
     public void setInstructions(@NonNull String instructions) {
         this.instructions = instructions;
     }
+
+    @Override
+    public String toString() {
+        String result = "";
+        result += "State: " + state + "\n"
+                + "Type: " + type + "\n"
+                + "Field: " + field + "\n"
+                + "Step: " + stepNo + "\n"
+                + "Instructions: " + instructions;
+
+        return result;
+    }
 }

@@ -14,28 +14,22 @@ import java.util.List;
 public class RecordChangeFormViewModel extends AndroidViewModel {
     private RecordChangeFormRepository repository;
     private LiveData<List<RecordChangeForm>> allForms;
-    private MutableLiveData<List<RecordChangeForm>> findFormsResults;
 
     public RecordChangeFormViewModel(Application application) {
         super(application);
         repository = new RecordChangeFormRepository(application);
         allForms = repository.getAllForms();
-        findFormsResults = repository.getFindFormsResults();
     }
 
     public LiveData<List<RecordChangeForm>> getAllForms() {
         return allForms;
     }
 
-    public MutableLiveData<List<RecordChangeForm>> getFindFormsResults() {
-        return findFormsResults;
-    }
-
     public void insert(RecordChangeForm form) {
         repository.insert(form);
     }
 
-    public void findForms(RecordState state, RecordType type, RecordField field) {
-        repository.findForms(state, type, field);
+    public List<RecordChangeForm> findForms(RecordState state, RecordType type, RecordField field) {
+        return repository.findForms(state, type, field);
     }
 }

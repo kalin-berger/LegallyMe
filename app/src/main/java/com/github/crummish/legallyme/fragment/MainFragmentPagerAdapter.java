@@ -9,8 +9,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
 
     private Context context;
-    final int PAGE_COUNT = 4;
-    private String tabTitles[] = new String[] { "Home", "Docs", "Faves", "Search" };
+    final int PAGE_COUNT = 3;
+    private String tabTitles[] = new String[] { "Home", "Docs", "Search" };
 
     public MainFragmentPagerAdapter(FragmentManager fm, Context context) {
         super(fm);
@@ -32,8 +32,6 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
             case 1:
                 return new DocumentsTabFragment();
             case 2:
-                return new FavoritesTabFragment();
-            case 3:
                 return new SearchTabFragment();
             default:
                 throw new IndexOutOfBoundsException();

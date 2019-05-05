@@ -37,6 +37,7 @@ import com.github.crummish.legallyme.sql.RecordChangeInstructionsViewModel;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class DocumentsTabFragment extends BaseTitledFragment {
@@ -267,20 +268,17 @@ public class DocumentsTabFragment extends BaseTitledFragment {
         public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
             super.onCreateView(inflater, container, savedInstanceState);
 
-            LinearLayout rootView = new LinearLayout(getContext());
+            ((BaseTitledFragment) getParentFragment()).setTitle("Your personalized checklist", "Here's what you need to do");
+
             ScrollView scrollView = new ScrollView(getContext());
             scrollView.addView(generateLayout());
 
-            return rootView;
+            return scrollView;
         }
 
         private LinearLayout generateLayout() {
             LinearLayout layout = new LinearLayout(getContext());
             layout.setOrientation(LinearLayout.VERTICAL);
-
-            TextView info = new TextView(getContext());
-            info.setText(getText(R.string.checklist_heading));
-            layout.addView(info);
 
             for(RecordType type : selectedRecordTypes) {
                 for(RecordField field : selectedRecordFields) {
@@ -289,22 +287,27 @@ public class DocumentsTabFragment extends BaseTitledFragment {
                     header.setText("Changing " + field.toString() + " on " + type.toString() + ":");
                     layout.addView(header);
 
-                    instructionsViewModel.findInstructions(selectedState, type, field);
                     List<RecordChangeInstructions> instructions = instructionsViewModel.findInstructions(selectedState, type, field);
+                    if(instructions.isEmpty()) {
+                        TextView noInstructions = new TextView(getContext());
+                        noInstructions.setText(getString(R.string.documents_tab_checklist_no_instructions));
+                        layout.addView(noInstructions);
+                    }
                     for(RecordChangeInstructions i : instructions) {
                         View checklistItem = LayoutInflater.from(getContext()).inflate(R.layout.view_checklist_item, null);
                         CheckBox checkBox = checklistItem.findViewById(R.id.checkbox);
                         TextView text = checklistItem.findViewById(R.id.text);
                         text.setText(i.getInstructions());
 
-                        // Iterates through Forms DB to Linkify form titles with matching URLs
-                        /*List<RecordChangeForm> forms = formViewModel.getAllForms().getValue();
-                        for(int j = 0; j < forms.size(); j++) {
-                            String title = forms.get(j).getTitle();
-                            Pattern pattern = Pattern.compile(title);
-                            String url = forms.get(j).getUrl().toString();
-                            Linkify.addLinks(text, pattern, url);
-                        }*/
+                        for(final RecordChangeForm form : formViewModel.findForms(selectedState, type, field)) {
+                            Linkify.TransformFilter filter = new Linkify.TransformFilter() {
+                                @Override
+                                public String transformUrl(Matcher match, String url) {
+                                    return form.getUrl().toString();
+                                }
+                            };
+                            Linkify.addLinks(text, Pattern.compile(form.getTitle()), "", null, filter);
+                        }
 
                         layout.addView(checklistItem);
                     }
