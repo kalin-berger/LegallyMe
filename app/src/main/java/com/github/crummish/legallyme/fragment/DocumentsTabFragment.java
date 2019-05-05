@@ -39,7 +39,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class DocumentsTabFragment extends Fragment {
+public class DocumentsTabFragment extends BaseTitledFragment {
 
     private RecordChangeFormViewModel formViewModel;
     private RecordChangeInstructionsViewModel instructionsViewModel;
@@ -47,8 +47,8 @@ public class DocumentsTabFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        formViewModel = ViewModelProviders.of(this).get(RecordChangeFormViewModel.class);
-        instructionsViewModel = ViewModelProviders.of(this).get(RecordChangeInstructionsViewModel.class);
+        formViewModel = ViewModelProviders.of(getActivity()).get(RecordChangeFormViewModel.class);
+        instructionsViewModel = ViewModelProviders.of(getActivity()).get(RecordChangeInstructionsViewModel.class);
 
         // First time opening, initialize to selection screen
         SelectScreenFragment selectScreen = new SelectScreenFragment();
@@ -237,8 +237,8 @@ public class DocumentsTabFragment extends Fragment {
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            formViewModel = ViewModelProviders.of(getParentFragment()).get(RecordChangeFormViewModel.class);
-            instructionsViewModel = ViewModelProviders.of(getParentFragment()).get(RecordChangeInstructionsViewModel.class);
+            formViewModel = ViewModelProviders.of(getActivity()).get(RecordChangeFormViewModel.class);
+            instructionsViewModel = ViewModelProviders.of(getActivity()).get(RecordChangeInstructionsViewModel.class);
         }
 
         @Nullable

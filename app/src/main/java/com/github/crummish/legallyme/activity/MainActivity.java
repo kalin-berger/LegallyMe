@@ -1,5 +1,6 @@
 package com.github.crummish.legallyme.activity;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -7,11 +8,20 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
 import com.github.crummish.legallyme.fragment.MainFragmentPagerAdapter;
+import com.github.crummish.legallyme.sql.RecordChangeFormViewModel;
+import com.github.crummish.legallyme.sql.RecordChangeInstructionsViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
+    private RecordChangeFormViewModel formViewModel;
+    private RecordChangeInstructionsViewModel instructionsViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        formViewModel = ViewModelProviders.of(this).get(RecordChangeFormViewModel.class);
+        instructionsViewModel = ViewModelProviders.of(this).get(RecordChangeInstructionsViewModel.class);
+
         setTheme(R.style.Theme_AppCompat_Light_NoActionBar);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
