@@ -32,6 +32,7 @@ import com.github.crummish.legallyme.document.RecordType;
 import com.github.crummish.legallyme.document.RecordState;
 import com.github.crummish.legallyme.shared.ExtrasKeys;
 import com.github.crummish.legallyme.sql.RecordChangeFormViewModel;
+import com.github.crummish.legallyme.sql.RecordChangeInstructions;
 import com.github.crummish.legallyme.sql.RecordChangeInstructionsViewModel;
 
 import java.util.ArrayList;
@@ -264,18 +265,39 @@ public class DocumentsTabFragment extends Fragment {
                 selectedRecordFields = new ArrayList<>();
             }
 
-            ScrollView rootView_test = new ScrollView(getContext());
-            LinearLayout layout = new LinearLayout(getContext());
-            for(RecordType recordType : selectedRecordTypes) {
-                for(RecordField recordField : selectedRecordFields) {
-                    TextView instruction;
+            LinearLayout rootViewTest = new LinearLayout(getContext());
+            ScrollView scrollView = new ScrollView(getContext());
+            scrollView.addView(generateLayout());
 
+
+            return rootViewTest;
+        }
+
+        private LinearLayout generateLayout() {
+            LinearLayout layout = new LinearLayout(getContext());
+            layout.setOrientation(LinearLayout.VERTICAL);
+            String info_string = getString(R.string.checklistHeading);
+            for(RecordType type : selectedRecordTypes) {
+                for(RecordField field : selectedRecordFields) {
+
+                    final TextView header = new TextView(getContext());
+                    header.setText("Changing " + field.toString() + " on " + type.toString() + ":");
+                    layout.addView(header);
+
+                    instructionsViewModel.findInstructions(selectedState, type, field);
+                    List<RecordChangeInstructions> instructions = instructionsViewModel.getFindInstructionsResults().getValue();
+                    for(RecordChangeInstructions i :instructions) {
+                        View checklistItem = LayoutInflater.from(getContext()).inflate(R.layout.view_checklist_item, null);
+                        CheckBox checkBox = checklistItem.findViewById(R.id.checkbox);
+                        TextView text = checklistItem.findViewById(R.id.text);
+                        text.setText(i.getInstructions());
+
+                        layout.addView(checklistItem);
+                    }
                 }
             }
-            String info_string = getString(R.string.checklistHeading);
 
-
-            return rootView;
+            return layout;
         }
     }
 }
