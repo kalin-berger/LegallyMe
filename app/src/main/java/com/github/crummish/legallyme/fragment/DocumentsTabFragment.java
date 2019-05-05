@@ -15,7 +15,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CheckedTextView;
 import android.widget.CompoundButton;
+import android.widget.ListView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
@@ -231,7 +233,7 @@ public class DocumentsTabFragment extends BaseTitledFragment {
         @Override
         public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
             super.onCreateView(inflater, container, savedInstanceState);
-            //View rootView = inflater.inflate(R.layout.fragment_documents_tab_checklist, container, false);
+            View rootView = inflater.inflate(R.layout.fragment_documents_tab_checklist, container, false);
 
             Bundle args = null;
             if(getArguments() != null) {
@@ -252,7 +254,10 @@ public class DocumentsTabFragment extends BaseTitledFragment {
             }
 
             //TODO: Link data to blurbs in database
-            ScrollView rootView = new ScrollView(getContext());
+            ListView checkList = (ListView) rootView.findViewById(R.id.checklist_list);
+            ChecklistAdapter adapter = new ChecklistAdapter(selectedState, courtOrderCompleted, selectedRecordTypes, selectedRecordFields, getContext());
+            checkList.setAdapter(adapter);
+            ScrollView rootView_test = new ScrollView(getContext());
             LinearLayout layout = new LinearLayout(getContext());
             for(RecordType recordType : selectedRecordTypes) {
                 for(RecordField recordField : selectedRecordFields) {
