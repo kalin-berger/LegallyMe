@@ -10,7 +10,17 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
 
     private Context context;
     final int PAGE_COUNT = 3;
-    private String tabTitles[] = new String[] { "Home", "Docs", "Search" };
+    public final int    HOME_TAB = 0,
+                        DOCUMENTS_TAB = 1,
+                        FAVORITES_TAB = 2,
+                        SEARCH_TAB = 3;
+
+    private HomeTabFragment homeTab;
+    private DocumentsTabFragment documentsTab;
+    private SearchTabFragment searchTab;
+    private FavoritesTabFragment favoritesTab;
+
+    private String tabTitles[] = new String[] { "Home", "Docs", "Favorites", "Search" };
 
     public MainFragmentPagerAdapter(FragmentManager fm, Context context) {
         super(fm);
@@ -21,18 +31,23 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         return tabTitles[position];
-        //return null;
     }
 
     @Override
     public Fragment getItem(int position) {
         switch(position) {
-            case 0:
-                return new HomeTabFragment();
-            case 1:
-                return new DocumentsTabFragment();
-            case 2:
-                return new SearchTabFragment();
+            case HOME_TAB:
+                homeTab = new HomeTabFragment();
+                return homeTab;
+            case DOCUMENTS_TAB:
+                documentsTab = new DocumentsTabFragment();
+                return documentsTab;
+            case FAVORITES_TAB:
+                favoritesTab = new FavoritesTabFragment();
+                return favoritesTab;
+            case SEARCH_TAB:
+                searchTab = new SearchTabFragment();
+                return searchTab;
             default:
                 throw new IndexOutOfBoundsException();
         }
@@ -41,5 +56,21 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         return PAGE_COUNT;
+    }
+
+    public HomeTabFragment getHomeTab() {
+        return homeTab;
+    }
+
+    public DocumentsTabFragment getDocumentsTab() {
+        return documentsTab;
+    }
+
+    public SearchTabFragment getSearchTab() {
+        return searchTab;
+    }
+
+    public FavoritesTabFragment getFavoritesTab() {
+        return favoritesTab;
     }
 }

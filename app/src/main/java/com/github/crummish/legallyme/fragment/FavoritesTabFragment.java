@@ -12,17 +12,42 @@ import android.widget.ArrayAdapter;
 import android.widget.GridView;
 
 import com.github.crummish.legallyme.activity.R;
+import com.github.crummish.legallyme.shared.ExtrasKeys;
+import com.github.crummish.legallyme.sql.RecordChangeForm;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FavoritesTabFragment extends BaseTitledFragment {
+    FavoritesGridFragment favoritesGrid;
+    List<RecordChangeForm> forms;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTitle(getString(R.string.favorites_tab_title), getString(R.string.favorites_tab_subtitle));
+        Bundle args = null;
+        if(getArguments() != null) {
+            args = getArguments();
+        }
+        else if(savedInstanceState != null) {
+            args = savedInstanceState;
+        }
+        if(args != null) {
+            forms = (ArrayList<RecordChangeForm>) args.getSerializable(ExtrasKeys.EXTRA_CLICKED_FORMS);
+        }
+        else {
+            forms = new ArrayList<>();
+        }
 
-        Fragment favoritesGrid = new FavoritesGridFragment();
+        favoritesGrid = new FavoritesGridFragment();
         FragmentTransaction ft = getChildFragmentManager().beginTransaction();
         ft.replace(R.id.content_container, favoritesGrid)
                 .commit();
+    }
+
+    public void newLinkClicked(List<RecordChangeForm> forms) {
+        favoritesGrid.updateForms(forms);
     }
 
     public static class FavoritesGridFragment extends Fragment {
@@ -37,6 +62,10 @@ public class FavoritesTabFragment extends BaseTitledFragment {
             favoritesGrid.setAdapter(documentNameAdapter);
 
             return rootView;
+        }
+
+        public void updateForms(List<RecordChangeForm> forms) {
+
         }
     }
 }

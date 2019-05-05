@@ -11,6 +11,7 @@ import android.util.Log;
 import com.github.crummish.legallyme.document.RecordField;
 import com.github.crummish.legallyme.document.RecordState;
 import com.github.crummish.legallyme.document.RecordType;
+import com.github.crummish.legallyme.fragment.FavoritesTabFragment;
 import com.github.crummish.legallyme.fragment.MainFragmentPagerAdapter;
 import com.github.crummish.legallyme.sql.RecordChangeForm;
 import com.github.crummish.legallyme.sql.RecordChangeFormViewModel;
@@ -20,6 +21,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
+
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
+    private MainFragmentPagerAdapter adapter;
 
     private RecordChangeFormViewModel formViewModel;
     private RecordChangeInstructionsViewModel instructionsViewModel;
@@ -38,21 +43,19 @@ public class MainActivity extends AppCompatActivity {
         toolbar.setTitle("legallyme");
         setSupportActionBar(toolbar);
 
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        viewPager.setAdapter(new MainFragmentPagerAdapter(getSupportFragmentManager(),
-                MainActivity.this));
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        adapter = new MainFragmentPagerAdapter(getSupportFragmentManager(), MainActivity.this);
+        viewPager.setAdapter(adapter);
 
-        final int[] ICONS = new int[]{
-                R.drawable.home_tab,
-                R.drawable.documents_tab,
-                R.drawable.search_tab
-        };
-
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
 
-        tabLayout.getTabAt(0).setIcon(ICONS[0]);
-        tabLayout.getTabAt(1).setIcon(ICONS[1]);
-        tabLayout.getTabAt(2).setIcon(ICONS[2]);
+        tabLayout.getTabAt(adapter.HOME_TAB).setIcon(R.drawable.home_tab);
+        tabLayout.getTabAt(adapter.DOCUMENTS_TAB).setIcon(R.drawable.documents_tab);
+        tabLayout.getTabAt(adapter.FAVORITES_TAB).setIcon(R.drawable.favorites_tab);
+        tabLayout.getTabAt(adapter.SEARCH_TAB).setIcon(R.drawable.search_tab);
+    }
+    public void saveNewLinkInFavorites(String url) {
+        adapter.getFavoritesTab();
     }
 }
