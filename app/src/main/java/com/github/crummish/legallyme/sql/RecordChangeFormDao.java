@@ -27,5 +27,5 @@ public interface RecordChangeFormDao {
             "state LIKE :state AND " +
             "type LIKE :type AND " +
             "field LIKE :field")
-    LiveData<List<RecordChangeForm>> findForms(RecordState state, RecordType type, RecordField field);
+    List<RecordChangeForm> findForms(RecordState state, RecordType type, RecordField field);
 }

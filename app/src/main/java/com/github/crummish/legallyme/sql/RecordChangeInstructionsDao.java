@@ -28,5 +28,5 @@ public interface RecordChangeInstructionsDao {
             "type LIKE :type AND " +
             "field LIKE :field " +
             "ORDER BY stepNo")
-    LiveData<List<RecordChangeInstructions>> findInstructions(RecordState state, RecordType type, RecordField field);
+    List<RecordChangeInstructions> findInstructions(RecordState state, RecordType type, RecordField field);
 }
