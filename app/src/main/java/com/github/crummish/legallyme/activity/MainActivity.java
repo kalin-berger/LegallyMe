@@ -8,9 +8,16 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
+import com.github.crummish.legallyme.document.RecordField;
+import com.github.crummish.legallyme.document.RecordState;
+import com.github.crummish.legallyme.document.RecordType;
 import com.github.crummish.legallyme.fragment.MainFragmentPagerAdapter;
+import com.github.crummish.legallyme.sql.RecordChangeForm;
 import com.github.crummish.legallyme.sql.RecordChangeFormViewModel;
 import com.github.crummish.legallyme.sql.RecordChangeInstructionsViewModel;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,6 +29,13 @@ public class MainActivity extends AppCompatActivity {
 
         formViewModel = ViewModelProviders.of(this).get(RecordChangeFormViewModel.class);
         instructionsViewModel = ViewModelProviders.of(this).get(RecordChangeInstructionsViewModel.class);
+
+        try {
+            deleteDatabase("record_change_database");
+            formViewModel.insert(new RecordChangeForm(RecordState.VIRGINIA, RecordType.GENERAL, RecordField.NAME, "Dummy Form", new URL("http://www.google.com/")));
+        } catch(MalformedURLException e) {
+
+        }
 
         setTheme(R.style.Theme_AppCompat_Light_NoActionBar);
         super.onCreate(savedInstanceState);

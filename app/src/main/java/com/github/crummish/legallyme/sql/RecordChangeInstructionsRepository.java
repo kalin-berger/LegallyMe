@@ -32,6 +32,9 @@ public class RecordChangeInstructionsRepository {
     }
 
     public MutableLiveData<List<RecordChangeInstructions>> getFindInstructionsResults() {
+        if(findInstructionsResults == null) {
+            Log.e("Repository", "Result was null!");
+        }
         return findInstructionsResults;
     }
 
@@ -42,7 +45,7 @@ public class RecordChangeInstructionsRepository {
 
     public void findInstructionsFinished(List<RecordChangeInstructions> result) {
         if(result == null) {
-            Log.e("Repository", "Result was null!");
+            Log.e("RepositoryFinished", "Result was null!");
         }
         findInstructionsResults.setValue(result);
     }

@@ -38,8 +38,8 @@ public abstract class RecordChangeDatabase extends RoomDatabase {
     private static RoomDatabase.Callback sRoomDatabaseCallback =
         new RoomDatabase.Callback() {
             @Override
-            public void onOpen(@NonNull SupportSQLiteDatabase db) {
-                super.onOpen(db);
+            public void onCreate(@NonNull SupportSQLiteDatabase db) {
+                super.onCreate(db);
                 new PopulateDbAsyncTask(INSTANCE).execute();
             }
         };
@@ -55,8 +55,6 @@ public abstract class RecordChangeDatabase extends RoomDatabase {
 
         @Override
         protected Void doInBackground(final Void... params) {
-            Log.e("Database", "Now prepopulating database with forms (" + RecordChangeDatabasePrePopulateHelper.getForms().length +
-                                        ") and instructions (" + RecordChangeDatabasePrePopulateHelper.getInstructions().length + ")");
             formDao.deleteAll();
             for(RecordChangeForm r : RecordChangeDatabasePrePopulateHelper.getForms()) {
                 formDao.insert(r);
@@ -64,7 +62,6 @@ public abstract class RecordChangeDatabase extends RoomDatabase {
 
             instructionsDao.deleteAll();
             for(RecordChangeInstructions r : RecordChangeDatabasePrePopulateHelper.getInstructions()) {
-                Log.e("Database", "Inserting instruction " + r.getState() + r.getType() + r.getField());
                 instructionsDao.insert(r);
             }
 

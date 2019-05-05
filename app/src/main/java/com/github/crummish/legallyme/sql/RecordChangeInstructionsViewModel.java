@@ -29,6 +29,9 @@ public class RecordChangeInstructionsViewModel extends AndroidViewModel {
     }
 
     public MutableLiveData<List<RecordChangeInstructions>> getFindInstructionsResults() {
+        if(findInstructionsResults == null) {
+            Log.e("ViewModel", "Result was null!");
+        }
         return findInstructionsResults;
     }
 

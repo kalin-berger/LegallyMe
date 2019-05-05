@@ -1,5 +1,6 @@
 package com.github.crummish.legallyme.fragment;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -36,6 +37,8 @@ import com.github.crummish.legallyme.sql.RecordChangeFormViewModel;
 import com.github.crummish.legallyme.sql.RecordChangeInstructions;
 import com.github.crummish.legallyme.sql.RecordChangeInstructionsViewModel;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -241,6 +244,16 @@ public class DocumentsTabFragment extends BaseTitledFragment {
             super.onCreate(savedInstanceState);
             formViewModel = ViewModelProviders.of(getActivity()).get(RecordChangeFormViewModel.class);
             instructionsViewModel = ViewModelProviders.of(getActivity()).get(RecordChangeInstructionsViewModel.class);
+            observerInit();
+        }
+
+        public void observerInit() {
+            formViewModel.getAllForms().observe(this, new Observer<List<RecordChangeForm>>() {
+                @Override
+                public void onChanged(@Nullable List<RecordChangeForm> recordChangeForms) {
+                    
+                }
+            });
         }
 
         @Nullable
@@ -288,7 +301,7 @@ public class DocumentsTabFragment extends BaseTitledFragment {
 
                     instructionsViewModel.findInstructions(selectedState, type, field);
                     List<RecordChangeInstructions> instructions = instructionsViewModel.getFindInstructionsResults().getValue();
-                    for(RecordChangeInstructions i :instructions) {
+                    for(RecordChangeInstructions i : instructions) {
                         View checklistItem = LayoutInflater.from(getContext()).inflate(R.layout.view_checklist_item, null);
                         CheckBox checkBox = checklistItem.findViewById(R.id.checkbox);
                         TextView text = checklistItem.findViewById(R.id.text);
