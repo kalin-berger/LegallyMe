@@ -62,6 +62,7 @@ public class ChecklistAdapter extends BaseAdapter {
         convertView = inflater.inflate(R.layout.checklist_view, null);
         final CheckedTextView checkedText = (CheckedTextView) convertView.findViewById(R.id.step_text);
         //TODO: set checkedText based on user selected input
+        
 
         checkedText.setOnClickListener(new View.OnClickListener() {
             @Override

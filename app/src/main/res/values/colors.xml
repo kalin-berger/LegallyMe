@@ -6,4 +6,5 @@
     <color name="titleColor">#0C1D71</color>
     <color name="subtitleColor">#4D4947</color>
     <color name="paragraphColor">#222222</color>
+    <color name="transBlue">#55cdfc</color>
 </resources>
