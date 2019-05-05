@@ -25,6 +25,6 @@ public class RecordChangeFormViewModel extends AndroidViewModel {
     }
 
     public void deleteAll() {
-        repository.deleteAll();
+        //repository.deleteAll();
     }
 }

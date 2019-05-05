@@ -24,7 +24,19 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(new MainFragmentPagerAdapter(getSupportFragmentManager(),
                 MainActivity.this));
 
+        final int[] ICONS = new int[]{
+                R.drawable.home_tab,
+                R.drawable.documents_tab,
+                R.drawable.favorites_tab,
+                R.drawable.search_tab
+        };
+
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
+
+        tabLayout.getTabAt(0).setIcon(ICONS[0]);
+        tabLayout.getTabAt(1).setIcon(ICONS[1]);
+        tabLayout.getTabAt(2).setIcon(ICONS[2]);
+        tabLayout.getTabAt(3).setIcon(ICONS[3]);
     }
 }
