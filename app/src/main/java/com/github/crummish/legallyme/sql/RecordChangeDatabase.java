@@ -8,6 +8,7 @@ import android.arch.persistence.room.TypeConverters;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 
 @TypeConverters({RecordStateConverter.class, RecordTypeConverter.class, RecordFieldConverter.class, UrlConverter.class})
@@ -24,6 +25,8 @@ public abstract class RecordChangeDatabase extends RoomDatabase {
                 if(INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                             RecordChangeDatabase.class, "record_change_database")
+                            .addCallback(sRoomDatabaseCallback)
+                            .fallbackToDestructiveMigration()
                             .build();
                 }
             }
@@ -52,13 +55,18 @@ public abstract class RecordChangeDatabase extends RoomDatabase {
 
         @Override
         protected Void doInBackground(final Void... params) {
+            Log.e("Database", "Now prepopulating database with forms (" + RecordChangeDatabasePrePopulateHelper.getForms().length +
+                                        ") and instructions (" + RecordChangeDatabasePrePopulateHelper.getInstructions().length + ")");
             formDao.deleteAll();
             for(RecordChangeForm r : RecordChangeDatabasePrePopulateHelper.getForms()) {
                 formDao.insert(r);
             }
 
             instructionsDao.deleteAll();
-            //for(RecordChangeInstructions r : )
+            for(RecordChangeInstructions r : RecordChangeDatabasePrePopulateHelper.getInstructions()) {
+                Log.e("Database", "Inserting instruction " + r.getState() + r.getType() + r.getField());
+                instructionsDao.insert(r);
+            }
 
             return null;
         }

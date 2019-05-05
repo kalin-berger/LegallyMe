@@ -4,6 +4,7 @@ import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.github.crummish.legallyme.document.RecordField;
 import com.github.crummish.legallyme.document.RecordState;
@@ -14,7 +15,7 @@ import java.util.List;
 public class RecordChangeInstructionsRepository {
     private RecordChangeInstructionsDao recordChangeInstructionsDao;
     private LiveData<List<RecordChangeInstructions>> allInstructions;
-    private MutableLiveData<List<RecordChangeInstructions>> findInstructionsResults;
+    private MutableLiveData<List<RecordChangeInstructions>> findInstructionsResults = new MutableLiveData<>();
 
     public RecordChangeInstructionsRepository(Application application) {
         RecordChangeDatabase db = RecordChangeDatabase.getDatabase(application);
@@ -40,6 +41,9 @@ public class RecordChangeInstructionsRepository {
     }
 
     public void findInstructionsFinished(List<RecordChangeInstructions> result) {
+        if(result == null) {
+            Log.e("Repository", "Result was null!");
+        }
         findInstructionsResults.setValue(result);
     }
 

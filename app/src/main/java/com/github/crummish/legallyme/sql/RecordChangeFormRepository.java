@@ -14,7 +14,7 @@ import java.util.List;
 public class RecordChangeFormRepository {
     private RecordChangeFormDao recordChangeFormDao;
     private LiveData<List<RecordChangeForm>> allForms;
-    private MutableLiveData<List<RecordChangeForm>> findFormsResults;
+    private MutableLiveData<List<RecordChangeForm>> findFormsResults = new MutableLiveData<>();
 
     public RecordChangeFormRepository(Application application) {
         RecordChangeDatabase db = RecordChangeDatabase.getDatabase(application);
