@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.text.util.Linkify;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,9 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CheckedTextView;
 import android.widget.CompoundButton;
-import android.widget.ListView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
@@ -32,6 +31,7 @@ import com.github.crummish.legallyme.document.RecordField;
 import com.github.crummish.legallyme.document.RecordType;
 import com.github.crummish.legallyme.document.RecordState;
 import com.github.crummish.legallyme.shared.ExtrasKeys;
+import com.github.crummish.legallyme.sql.RecordChangeForm;
 import com.github.crummish.legallyme.sql.RecordChangeFormViewModel;
 import com.github.crummish.legallyme.sql.RecordChangeInstructions;
 import com.github.crummish.legallyme.sql.RecordChangeInstructionsViewModel;
@@ -39,6 +39,7 @@ import com.github.crummish.legallyme.sql.RecordChangeInstructionsViewModel;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class DocumentsTabFragment extends BaseTitledFragment {
 
@@ -292,6 +293,15 @@ public class DocumentsTabFragment extends BaseTitledFragment {
                         CheckBox checkBox = checklistItem.findViewById(R.id.checkbox);
                         TextView text = checklistItem.findViewById(R.id.text);
                         text.setText(i.getInstructions());
+
+                        // Iterates through Forms DB to Linkify form titles with matching URLs
+                        List<RecordChangeForm> forms = formViewModel.getAllForms().getValue();
+                        for(int j = 0; j < forms.size(); j++) {
+                            String title = forms.get(j).getTitle();
+                            Pattern pattern = Pattern.compile(title);
+                            String url = forms.get(j).getUrl().toString();
+                            Linkify.addLinks(text, pattern, url);
+                        }
 
                         layout.addView(checklistItem);
                     }
