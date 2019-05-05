@@ -24,7 +24,4 @@ public class RecordChangeInstructionsViewModel extends AndroidViewModel {
         repository.insert(instructions);
     }
 
-    public void deleteAll() {
-        repository.deleteAll();
-    }
 }

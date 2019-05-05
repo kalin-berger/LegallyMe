@@ -33,16 +33,15 @@ import com.github.crummish.legallyme.shared.ExtrasKeys;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
-public class DocumentsTabFragment extends BaseTitledFragment {
+public class DocumentsTabFragment extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // First time opening, initialize to selection screen
         SelectScreenFragment selectScreen = new SelectScreenFragment();
-
-        setTitle(getString(R.string.documents_tab_selection_title), getString(R.string.documents_tab_selection_subtitle));
 
         FragmentTransaction ft = getChildFragmentManager().beginTransaction();
                 ft.replace(R.id.content_container, selectScreen)
@@ -51,10 +50,24 @@ public class DocumentsTabFragment extends BaseTitledFragment {
 
     public static class SelectScreenFragment extends Fragment {
 
-        RecordState selectedState;
-        ArrayList<RecordType> selectedRecordTypes;
-        ArrayList<RecordField> selectedRecordFields;
-        boolean courtOrderCompleted, courtOrderItemSelected = false;
+        private RecordState selectedState;
+        private ArrayList<RecordType> selectedRecordTypes;
+        private ArrayList<RecordField> selectedRecordFields;
+        private boolean courtOrderCompleted, courtOrderItemSelected = false;
+
+        private Spinner stateSpinner;
+
+        private CheckBox checkBirth,
+                        checkDrivers,
+                        checkSocial,
+                        checkPassport,
+                        checkName,
+                        checkGender;
+
+
+        private RadioGroup courtOrderCompletedOptions;
+
+        private Button goButton;
 
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -85,8 +98,27 @@ public class DocumentsTabFragment extends BaseTitledFragment {
 
             View rootView = inflater.inflate(R.layout.fragment_documents_tab_selection, container, false);
 
-            final Spinner stateSpinner = rootView.findViewById(R.id.select_state_spinner);
+            stateSpinner = rootView.findViewById(R.id.select_state_spinner);
+            stateSpinnerInit();
 
+            courtOrderCompletedOptions = rootView.findViewById(R.id.court_order_completed_options);
+            courtOrderItemInit();
+
+            checkBirth = rootView.findViewById(R.id.checkbox_birth_cert);
+            checkDrivers = rootView.findViewById(R.id.checkbox_drivers);
+            checkSocial = rootView.findViewById(R.id.checkbox_social);
+            checkPassport = rootView.findViewById(R.id.checkbox_passport);
+            checkName = rootView.findViewById(R.id.checkbox_name);
+            checkGender = rootView.findViewById(R.id.checkbox_gender);
+            checkBoxInit();
+
+            goButton = rootView.findViewById(R.id.go_button);
+            goButtonInit();
+
+            return rootView;
+        }
+
+        public void stateSpinnerInit() {
             ArrayAdapter<RecordState> stateNameAdapter = new ArrayAdapter<>(getActivity().getApplicationContext(), android.R.layout.simple_spinner_dropdown_item, Arrays.asList(RecordState.values()));
             stateSpinner.setAdapter(stateNameAdapter);
 
@@ -101,9 +133,9 @@ public class DocumentsTabFragment extends BaseTitledFragment {
 
                 }
             });
+        }
 
-            // Radio button response
-            final RadioGroup courtOrderCompletedOptions = rootView.findViewById(R.id.court_order_completed_options);
+        public void courtOrderItemInit() {
             courtOrderCompletedOptions.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(RadioGroup radioGroup, int i) {
@@ -116,110 +148,70 @@ public class DocumentsTabFragment extends BaseTitledFragment {
                     }
                 }
             });
+        }
 
-            final CheckBox  checkBirth = rootView.findViewById(R.id.checkbox_birth_cert),
-                            checkDrivers = rootView.findViewById(R.id.checkbox_drivers),
-                            checkSocial = rootView.findViewById(R.id.checkbox_social),
-                            checkPassport = rootView.findViewById(R.id.checkbox_passport),
-                            checkName = rootView.findViewById(R.id.checkbox_name),
-                            checkGender = rootView.findViewById(R.id.checkbox_gender);
+        public void checkBoxInit() {
+            checkBirth.setOnClickListener(new CheckBoxListener<>(selectedRecordTypes, RecordType.BIRTH_CERTIFICATE));
+            checkDrivers.setOnClickListener(new CheckBoxListener<>(selectedRecordTypes, RecordType.DRIVERS_LICENSE));
+            checkSocial.setOnClickListener(new CheckBoxListener<>(selectedRecordTypes, RecordType.SOCIAL_SECURITY));
+            checkPassport.setOnClickListener(new CheckBoxListener<>(selectedRecordTypes, RecordType.PASSPORT));
+            checkName.setOnClickListener(new CheckBoxListener<>(selectedRecordFields, RecordField.NAME));
+            checkGender.setOnClickListener(new CheckBoxListener<>(selectedRecordFields, RecordField.GENDER_MARKER));
+        }
 
-            checkBirth.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View rootView) {
-                    if(((CompoundButton) rootView).isChecked()) {
-                        selectedRecordTypes.add(RecordType.BIRTH_CERTIFICATE);
-                    } else {
-                        selectedRecordTypes.remove(RecordType.BIRTH_CERTIFICATE);
-                    }
-                }
-            });
-            checkDrivers.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View rootView) {
-                    if(((CompoundButton) rootView).isChecked()) {
-                        selectedRecordTypes.add(RecordType.DRIVERS_LICENSE);
-                    } else {
-                        selectedRecordTypes.remove(RecordType.DRIVERS_LICENSE);
-                    }
-                }
-            });
-            checkSocial.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View rootView) {
-                    if(((CompoundButton) rootView).isChecked()) {
-                        selectedRecordTypes.add(RecordType.SOCIAL_SECURITY);
-                    } else {
-                        selectedRecordTypes.remove(RecordType.SOCIAL_SECURITY);
-                    }
-                }
-            });
-            checkPassport.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View rootView) {
-                    if(((CompoundButton) rootView).isChecked()) {
-                        selectedRecordTypes.add(RecordType.PASSPORT);
-                    } else {
-                        selectedRecordTypes.remove(RecordType.PASSPORT);
-                    }
-                }
-            });
-            checkName.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View rootView) {
-                    if(((CompoundButton) rootView).isChecked()) {
-                        selectedRecordFields.add(RecordField.NAME);
-                    } else {
-                        selectedRecordFields.remove(RecordField.NAME);
-
-                    }
-                }
-            });
-            checkGender.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View rootView) {
-                    if(((CompoundButton) rootView).isChecked()) {
-                        selectedRecordFields.add(RecordField.GENDER_MARKER);
-                    } else {
-                        selectedRecordFields.remove(RecordField.GENDER_MARKER);
-
-                    }
-                }
-            });
-
-            final Button goButton = rootView.findViewById(R.id.go_button);
+        public void goButtonInit() {
             goButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if(selectedState == null ||
-                        selectedRecordTypes.isEmpty() ||
-                        selectedRecordFields.isEmpty() ||
-                        !courtOrderItemSelected) {
+                            selectedRecordTypes.isEmpty() ||
+                            selectedRecordFields.isEmpty() ||
+                            !courtOrderItemSelected) {
                         final Animation animShake = AnimationUtils.loadAnimation(getContext(), R.anim.shake);
                         goButton.startAnimation(animShake);
                         Toast.makeText(getContext(), "Please answer all fields", Toast.LENGTH_SHORT).show();
                         return;
                     }
 
-                    ChecklistFragment checklistFragment = new ChecklistFragment();
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(ExtrasKeys.EXTRA_SELECTED_STATE, selectedState);
-                    bundle.putSerializable(ExtrasKeys.EXTRA_SELECTED_RECORD_TYPES, selectedRecordTypes);
-                    bundle.putSerializable(ExtrasKeys.EXTRA_SELECTED_RECORD_FIELDS, selectedRecordFields);
-                    bundle.putBoolean(ExtrasKeys.EXTRA_COURT_ORDER_COMPLETED, courtOrderCompleted);
-                    checklistFragment.setArguments(bundle);
-
-                    FragmentTransaction ft = getParentFragment().getChildFragmentManager().beginTransaction();
-                    ((DocumentsTabFragment) getParentFragment()).setTitle("Your personalized checklist", "Navigate your transition");
-
-                    ft.replace(R.id.content_container, checklistFragment)
-                            .addToBackStack(null)
-                            .commit();
+                    switchToChecklist();
                 }
             });
-
-            return rootView;
         }
+
+        public void switchToChecklist() {
+            ChecklistFragment checklistFragment = new ChecklistFragment();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(ExtrasKeys.EXTRA_SELECTED_STATE, selectedState);
+            bundle.putSerializable(ExtrasKeys.EXTRA_SELECTED_RECORD_TYPES, selectedRecordTypes);
+            bundle.putSerializable(ExtrasKeys.EXTRA_SELECTED_RECORD_FIELDS, selectedRecordFields);
+            bundle.putBoolean(ExtrasKeys.EXTRA_COURT_ORDER_COMPLETED, courtOrderCompleted);
+            checklistFragment.setArguments(bundle);
+
+            FragmentTransaction ft = getParentFragment().getChildFragmentManager().beginTransaction();
+
+            ft.replace(R.id.content_container, checklistFragment)
+                    .addToBackStack(null)
+                    .commit();
+        }
+
+            private static class CheckBoxListener<T extends Enum> implements View.OnClickListener {
+                private ArrayList<T> tracker;
+                private T field;
+
+                public CheckBoxListener(ArrayList<T> tracker, T field) {
+                    this.field = field;
+                    this.tracker = tracker;
+                }
+
+                @Override
+                public void onClick(View rootView) {
+                    if(((CompoundButton) rootView).isChecked()) {
+                        tracker.add(field);
+                    } else {
+                        tracker.remove(field);
+                    }
+                }
+            }
     }
 
     // Fragment to display checklist; currently populated with static dummy data for demo
