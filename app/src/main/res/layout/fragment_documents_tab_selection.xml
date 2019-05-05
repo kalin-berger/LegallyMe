@@ -12,6 +12,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/documents_tab_selection_state_textview"
+                android:textSize="20dp"
                 style="@style/FieldTitleText" />
             <Spinner
                 android:id="@+id/select_state_spinner"
@@ -23,6 +24,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:textSize="20dp"
                 android:text="@string/documents_tab_selection_petition_textview" />
 
             <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
@@ -49,6 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:textSize="20dp"
                 android:text="@string/documents_tab_selection_document_textview" />
 
             <CheckBox android:id="@+id/checkbox_birth_cert"
@@ -77,6 +80,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:textSize="20dp"
                 android:text="@string/documents_tab_selection_change_textview" />
 
             <CheckBox android:id="@+id/checkbox_name"
@@ -97,6 +101,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_marginTop="20dp"
+                android:textSize="20dp"
                 android:text="@string/go_button" />
         </LinearLayout>
 </ScrollView>

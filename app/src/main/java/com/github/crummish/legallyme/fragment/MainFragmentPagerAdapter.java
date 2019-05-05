@@ -10,7 +10,7 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
 
     private Context context;
     final int PAGE_COUNT = 4;
-    private String tabTitles[] = new String[] { "Home", "Documents", "Favorites", "Search" };
+    private String tabTitles[] = new String[] { "Home", "Docs", "Faves", "Search" };
 
     public MainFragmentPagerAdapter(FragmentManager fm, Context context) {
         super(fm);
@@ -21,6 +21,7 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         return tabTitles[position];
+        //return null;
     }
 
     @Override
