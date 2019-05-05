@@ -28,6 +28,6 @@
     <string name="gender">Gender marker</string>
     <string name="name">Name</string>
 
-    <string name="checklistHeading">This is your personalized checklist! You still need to:</string>
+    <string name="checklist_heading">This is your personalized checklist! You still need to:</string>
     <string name="title_activity_maps">Map</string>
 </resources>

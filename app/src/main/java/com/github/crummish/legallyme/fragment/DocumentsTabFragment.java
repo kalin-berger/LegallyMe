@@ -1,6 +1,5 @@
 package com.github.crummish.legallyme.fragment;
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,8 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.util.Linkify;
-import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,8 +34,6 @@ import com.github.crummish.legallyme.sql.RecordChangeFormViewModel;
 import com.github.crummish.legallyme.sql.RecordChangeInstructions;
 import com.github.crummish.legallyme.sql.RecordChangeInstructionsViewModel;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -57,6 +52,8 @@ public class DocumentsTabFragment extends BaseTitledFragment {
 
         // First time opening, initialize to selection screen
         SelectScreenFragment selectScreen = new SelectScreenFragment();
+
+        setTitle(getString(R.string.documents_tab_selection_title), getString(R.string.documents_tab_selection_subtitle));
 
         FragmentTransaction ft = getChildFragmentManager().beginTransaction();
                 ft.replace(R.id.content_container, selectScreen)
@@ -242,25 +239,6 @@ public class DocumentsTabFragment extends BaseTitledFragment {
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            formViewModel = ViewModelProviders.of(getActivity()).get(RecordChangeFormViewModel.class);
-            instructionsViewModel = ViewModelProviders.of(getActivity()).get(RecordChangeInstructionsViewModel.class);
-            observerInit();
-        }
-
-        public void observerInit() {
-            formViewModel.getAllForms().observe(this, new Observer<List<RecordChangeForm>>() {
-                @Override
-                public void onChanged(@Nullable List<RecordChangeForm> recordChangeForms) {
-                    
-                }
-            });
-        }
-
-        @Nullable
-        @Override
-        public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-            super.onCreateView(inflater, container, savedInstanceState);
-            View rootView = inflater.inflate(R.layout.fragment_documents_tab_checklist, container, false);
 
             Bundle args = null;
             if(getArguments() != null) {
@@ -280,18 +258,30 @@ public class DocumentsTabFragment extends BaseTitledFragment {
                 selectedRecordFields = new ArrayList<>();
             }
 
-            LinearLayout rootViewTest = new LinearLayout(getContext());
+            formViewModel = ViewModelProviders.of(getActivity()).get(RecordChangeFormViewModel.class);
+            instructionsViewModel = ViewModelProviders.of(getActivity()).get(RecordChangeInstructionsViewModel.class);
+        }
+
+        @Nullable
+        @Override
+        public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+            super.onCreateView(inflater, container, savedInstanceState);
+
+            LinearLayout rootView = new LinearLayout(getContext());
             ScrollView scrollView = new ScrollView(getContext());
             scrollView.addView(generateLayout());
 
-
-            return rootViewTest;
+            return rootView;
         }
 
         private LinearLayout generateLayout() {
             LinearLayout layout = new LinearLayout(getContext());
             layout.setOrientation(LinearLayout.VERTICAL);
-            String info_string = getString(R.string.checklistHeading);
+
+            TextView info = new TextView(getContext());
+            info.setText(getText(R.string.checklist_heading));
+            layout.addView(info);
+
             for(RecordType type : selectedRecordTypes) {
                 for(RecordField field : selectedRecordFields) {
 
@@ -300,7 +290,7 @@ public class DocumentsTabFragment extends BaseTitledFragment {
                     layout.addView(header);
 
                     instructionsViewModel.findInstructions(selectedState, type, field);
-                    List<RecordChangeInstructions> instructions = instructionsViewModel.getFindInstructionsResults().getValue();
+                    List<RecordChangeInstructions> instructions = instructionsViewModel.findInstructions(selectedState, type, field);
                     for(RecordChangeInstructions i : instructions) {
                         View checklistItem = LayoutInflater.from(getContext()).inflate(R.layout.view_checklist_item, null);
                         CheckBox checkBox = checklistItem.findViewById(R.id.checkbox);
@@ -308,13 +298,13 @@ public class DocumentsTabFragment extends BaseTitledFragment {
                         text.setText(i.getInstructions());
 
                         // Iterates through Forms DB to Linkify form titles with matching URLs
-                        List<RecordChangeForm> forms = formViewModel.getAllForms().getValue();
+                        /*List<RecordChangeForm> forms = formViewModel.getAllForms().getValue();
                         for(int j = 0; j < forms.size(); j++) {
                             String title = forms.get(j).getTitle();
                             Pattern pattern = Pattern.compile(title);
                             String url = forms.get(j).getUrl().toString();
                             Linkify.addLinks(text, pattern, url);
-                        }
+                        }*/
 
                         layout.addView(checklistItem);
                     }

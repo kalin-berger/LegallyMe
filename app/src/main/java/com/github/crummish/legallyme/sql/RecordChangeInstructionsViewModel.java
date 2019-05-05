@@ -15,31 +15,22 @@ import java.util.List;
 public class RecordChangeInstructionsViewModel extends AndroidViewModel {
     private RecordChangeInstructionsRepository repository;
     private LiveData<List<RecordChangeInstructions>> allInstructions;
-    private MutableLiveData<List<RecordChangeInstructions>> findInstructionsResults;
 
     public RecordChangeInstructionsViewModel(Application application) {
         super(application);
         repository = new RecordChangeInstructionsRepository(application);
         allInstructions = repository.getAllInstructions();
-        findInstructionsResults = repository.getFindInstructionsResults();
     }
 
     public LiveData<List<RecordChangeInstructions>> getAllInstructions() {
         return allInstructions;
     }
 
-    public MutableLiveData<List<RecordChangeInstructions>> getFindInstructionsResults() {
-        if(findInstructionsResults == null) {
-            Log.e("ViewModel", "Result was null!");
-        }
-        return findInstructionsResults;
-    }
-
     public void insert(RecordChangeInstructions instructions) {
         repository.insert(instructions);
     }
 
-    public void findInstructions(RecordState state, RecordType type, RecordField field) {
-        repository.findInstructions(state, type, field);
+    public List<RecordChangeInstructions> findInstructions(RecordState state, RecordType type, RecordField field) {
+        return repository.findInstructions(state, type, field);
     }
 }

@@ -27,6 +27,7 @@ public abstract class RecordChangeDatabase extends RoomDatabase {
                             RecordChangeDatabase.class, "record_change_database")
                             .addCallback(sRoomDatabaseCallback)
                             .fallbackToDestructiveMigration()
+                            .allowMainThreadQueries()
                             .build();
                 }
             }

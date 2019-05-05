@@ -10,12 +10,12 @@ import com.github.crummish.legallyme.document.RecordField;
 import com.github.crummish.legallyme.document.RecordState;
 import com.github.crummish.legallyme.document.RecordType;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RecordChangeInstructionsRepository {
     private RecordChangeInstructionsDao recordChangeInstructionsDao;
     private LiveData<List<RecordChangeInstructions>> allInstructions;
-    private MutableLiveData<List<RecordChangeInstructions>> findInstructionsResults = new MutableLiveData<>();
 
     public RecordChangeInstructionsRepository(Application application) {
         RecordChangeDatabase db = RecordChangeDatabase.getDatabase(application);
@@ -31,23 +31,8 @@ public class RecordChangeInstructionsRepository {
         (new InsertAsyncTask(recordChangeInstructionsDao)).execute(instructions);
     }
 
-    public MutableLiveData<List<RecordChangeInstructions>> getFindInstructionsResults() {
-        if(findInstructionsResults == null) {
-            Log.e("Repository", "Result was null!");
-        }
-        return findInstructionsResults;
-    }
-
-    public void findInstructions(RecordState state, RecordType type, RecordField field) {
-        (new FindInstructionsAsyncTask(recordChangeInstructionsDao, this, state, type, field))
-                .execute();
-    }
-
-    public void findInstructionsFinished(List<RecordChangeInstructions> result) {
-        if(result == null) {
-            Log.e("RepositoryFinished", "Result was null!");
-        }
-        findInstructionsResults.setValue(result);
+    public List<RecordChangeInstructions> findInstructions(RecordState state, RecordType type, RecordField field) {
+        return recordChangeInstructionsDao.findInstructions(state, type, field);
     }
 
     private static class InsertAsyncTask extends AsyncTask<RecordChangeInstructions, Void, Void> {
@@ -61,37 +46,6 @@ public class RecordChangeInstructionsRepository {
         protected Void doInBackground(final RecordChangeInstructions... params) {
             recordChangeInstructionsDao.insert(params[0]);
             return null;
-        }
-    }
-
-    private static class FindInstructionsAsyncTask extends AsyncTask<Void, Void, List<RecordChangeInstructions>> {
-        private RecordChangeInstructionsDao recordChangeInstructionsDao;
-        private RecordChangeInstructionsRepository delegate;
-
-        private RecordState state;
-        private RecordType type;
-        private RecordField field;
-
-        FindInstructionsAsyncTask(RecordChangeInstructionsDao recordChangeInstructionsDao,
-                                  RecordChangeInstructionsRepository delegate,
-                                  RecordState state,
-                                  RecordType type,
-                                  RecordField field) {
-            this.recordChangeInstructionsDao = recordChangeInstructionsDao;
-            this.delegate = delegate;
-            this.state = state;
-            this.type = type;
-            this.field = field;
-        }
-
-        @Override
-        protected List<RecordChangeInstructions> doInBackground(final Void... params) {
-            return recordChangeInstructionsDao.findInstructions(state, type, field);
-        }
-
-        @Override
-        protected void onPostExecute(List<RecordChangeInstructions> result) {
-            delegate.findInstructionsFinished(result);
         }
     }
 }
