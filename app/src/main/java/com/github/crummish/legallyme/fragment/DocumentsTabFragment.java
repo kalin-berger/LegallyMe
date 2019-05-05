@@ -1,5 +1,6 @@
 package com.github.crummish.legallyme.fragment;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -30,6 +31,8 @@ import com.github.crummish.legallyme.document.RecordField;
 import com.github.crummish.legallyme.document.RecordType;
 import com.github.crummish.legallyme.document.RecordState;
 import com.github.crummish.legallyme.shared.ExtrasKeys;
+import com.github.crummish.legallyme.sql.RecordChangeFormViewModel;
+import com.github.crummish.legallyme.sql.RecordChangeInstructionsViewModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,9 +40,15 @@ import java.util.List;
 
 public class DocumentsTabFragment extends Fragment {
 
+    private RecordChangeFormViewModel formViewModel;
+    private RecordChangeInstructionsViewModel instructionsViewModel;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        formViewModel = ViewModelProviders.of(this).get(RecordChangeFormViewModel.class);
+        instructionsViewModel = ViewModelProviders.of(this).get(RecordChangeInstructionsViewModel.class);
+
         // First time opening, initialize to selection screen
         SelectScreenFragment selectScreen = new SelectScreenFragment();
 
@@ -216,10 +225,20 @@ public class DocumentsTabFragment extends Fragment {
 
     // Fragment to display checklist; currently populated with static dummy data for demo
     public static class ChecklistFragment extends Fragment {
+        private RecordChangeFormViewModel formViewModel;
+        private RecordChangeInstructionsViewModel instructionsViewModel;
+
         RecordState selectedState;
         ArrayList<RecordType> selectedRecordTypes;
         ArrayList<RecordField> selectedRecordFields;
         boolean courtOrderCompleted;
+
+        @Override
+        public void onCreate(@Nullable Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            formViewModel = ViewModelProviders.of(getParentFragment()).get(RecordChangeFormViewModel.class);
+            instructionsViewModel = ViewModelProviders.of(getParentFragment()).get(RecordChangeInstructionsViewModel.class);
+        }
 
         @Nullable
         @Override
@@ -245,10 +264,6 @@ public class DocumentsTabFragment extends Fragment {
                 selectedRecordFields = new ArrayList<>();
             }
 
-            //TODO: Link data to blurbs in database
-            ListView checkList = (ListView) rootView.findViewById(R.id.checklist_list);
-            ChecklistAdapter adapter = new ChecklistAdapter(selectedState, courtOrderCompleted, selectedRecordTypes, selectedRecordFields, getContext());
-            checkList.setAdapter(adapter);
             ScrollView rootView_test = new ScrollView(getContext());
             LinearLayout layout = new LinearLayout(getContext());
             for(RecordType recordType : selectedRecordTypes) {
